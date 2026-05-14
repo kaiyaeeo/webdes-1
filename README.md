@@ -21,13 +21,6 @@ This project serves as a personal or shared knowledge base for students and deve
 - **Mobile friendly** – hamburger menu for small screens
 - **Custom color palette** – soft blue tones that reduce eye strain and improve readability
 
-## 🗂️ Project Structure
-
-project-folder/
-├── index.html # Main HTML structure
-├── style.css # All styles (including color palette and responsive rules)
-└── script.js # Dynamic content (topics, code examples, summary, navbar logic)
-
 ## 📚 Content Overview
 
 ### 1. Algorithms
