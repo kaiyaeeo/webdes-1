@@ -19,12 +19,14 @@
 }
 
 body {
+    font-family: sans-serif;
     background-color: var(--bg);
     color: var(--text-primary);
     background-image:
         radial-gradient(ellipse at 20% 20%, rgba(255, 107, 107, 0.07) 0%, transparent 50%),
         radial-gradient(ellipse at 80% 80%, rgba(107, 203, 119, 0.07) 0%, transparent 50%);
 }
+
 /* wadah buat judul biar ukuran sama posisi konten yang ada di judul bisa ngikutin ukuran layar*/
 #con-judul{
     display: flex;
@@ -33,6 +35,7 @@ body {
     min-height: 300px;
     border-bottom: 1px solid var(--border);
     flex-wrap: wrap;
+    padding: 20px;
 }
 
 /* biar posisi teks lurus ke-tengah*/
@@ -49,6 +52,7 @@ body {
     background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 50%, #6bcb77 100%);
     /*pilih area yang dimask*/
     background-clip: text;
+    -webkit-background-clip: text;
     /*ngubah warna teks jadi transparan biar warna yang dibelakang muncul*/
     color: transparent;
     margin-bottom: 14px;
@@ -65,13 +69,15 @@ body {
 /* wadah buat topik, fungsinya sama kaya wadah judul */
 #con-topik{
     display:flex;
-    align-items: center;
+    align-items: stretch;
     align-content: center;
-    justify-content: space-evenly;
+    justify-content: center;
     min-height: 500px;
     flex-wrap: wrap;
     gap: 20px;
     padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* blok topiknya */
@@ -79,10 +85,18 @@ body {
     text-align: left;
     background: var(--card);
     border: 1px solid var(--border);
-    padding: 10px;
-    max-width: 300px;
+    padding: 25px;
+    width: 100%;
+    max-width: 320px;
     border-radius: 15px;
+    transition: all 0.3s ease;
+}
 
+/*Efek hover*/
+.topik:hover {
+    transform: tranlateY(-5px);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 /*judul topik*/
@@ -92,7 +106,14 @@ body {
     margin-bottom: 12px;
 }
 
+/*deskripsi topik*/
+.topik p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
 /*buat ganti warna judul topik*/
-.topik:nth-child(1) h3 { color: var(--accent); } /*topik pertama warnanya ini*/
-.topik:nth-child(2) h3 { color: var(--accent2); } /*topik kedua warnanya ini*/
-.topik:nth-child(3) h3 { color: var(--accent3); } /*topik ketiga warnanya ini*/
+.topik:nth-child(1) h3, .topik:nth-child(4) h3 { color: var(--accent); } /*topik pertama warnanya ini*/
+.topik:nth-child(2) h3, .topik:nth-child(5) h3 { color: var(--accent2); } /*topik kedua warnanya ini*/
+.topik:nth-child(3) h3, .topik:nth-child(6) h3 { color: var(--accent3); } /*topik ketiga warnanya ini*/
