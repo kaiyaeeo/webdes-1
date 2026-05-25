@@ -16,7 +16,7 @@ function demoVariable() {
 
     // Cek apakah kedua input sudah diisi
     if (nama === "" || usia === "") {
-        tampilkanOutput("output-variable", "⚠️ Isi nama dan usia dulu ya!", false);
+        tampilkanOutput("output-variable", "Isi nama dan usia terlebih dahulu", false);
         return; // Hentikan fungsi jika ada input kosong
     }
 
@@ -29,10 +29,10 @@ function demoVariable() {
 
     // Susun teks hasil untuk ditampilkan
     let hasil =
-        `📦 Isi Variabel:\n` +
+        `  Isi Variabel:\n` +
         `   nama  = "${nama}"  → tipe: ${typeof nama}\n` +
         `   usia  = ${usia}    → tipe: ${typeof Number(usia)}\n\n` +
-        `💬 Hasil:\n` +
+        `  Hasil:\n` +
         `   ${salam}\n` +
         `   Kamu lahir sekitar tahun ${tahunLahir}.`;
 
@@ -55,7 +55,7 @@ function tambahItem() {
 
     // Cek apakah input tidak kosong
     if (item === "") {
-        tampilkanOutput("output-array", "⚠️ Tulis nama item dulu!", false);
+        tampilkanOutput("output-array", " Tulis nama item terlebih dahulu", false);
         return; // Hentikan jika kosong
     }
 
@@ -72,7 +72,7 @@ function tambahItem() {
 function hapusItem() {
     // Cek apakah array tidak kosong sebelum menghapus
     if (daftarBelanja.length === 0) {
-        tampilkanOutput("output-array", "⚠️ Tidak ada item untuk dihapus.", false);
+        tampilkanOutput("output-array", " Tidak ada item untuk dihapus.", false);
         return; // Hentikan jika sudah kosong
     }
 
@@ -91,7 +91,7 @@ function tampilkanArray() {
     }
 
     // Buat teks yang menampilkan setiap item beserta indeksnya
-    let baris = `📋 daftarBelanja (${daftarBelanja.length} item):\n\n`;
+    let baris = ` daftarBelanja (${daftarBelanja.length} item):\n\n`;
 
     // Gunakan for loop untuk menampilkan setiap item
     for (let i = 0; i < daftarBelanja.length; i++) {
@@ -99,7 +99,7 @@ function tampilkanArray() {
     }
 
     // Tambahkan info panjang array di bawah
-    baris += `\n📏 daftarBelanja.length = ${daftarBelanja.length}`;
+    baris += `\n daftarBelanja.length = ${daftarBelanja.length}`;
 
     // Tampilkan ke output
     tampilkanOutput("output-array", baris, true);
@@ -132,7 +132,7 @@ function demoFungsi() {
 
     // Validasi: pastikan input diisi dan berupa angka positif
     if (isNaN(panjang) || isNaN(lebar) || panjang <= 0 || lebar <= 0) {
-        tampilkanOutput("output-fungsi", "⚠️ Masukkan angka positif untuk panjang dan lebar!", false);
+        tampilkanOutput("output-fungsi", " Masukkan angka positif untuk panjang dan lebar", false);
         return;
     }
 
@@ -142,10 +142,10 @@ function demoFungsi() {
 
     // Susun teks hasil
     let hasil =
-        `🔧 Fungsi dipanggil:\n` +
+        `   Fungsi dipanggil:\n` +
         `   hitungLuas(${panjang}, ${lebar})     → ${luas} cm²\n` +
         `   hitungKeliling(${panjang}, ${lebar}) → ${keliling} cm\n\n` +
-        `📐 Persegi panjang ${panjang} × ${lebar}:\n` +
+        `   Persegi panjang ${panjang} × ${lebar}:\n` +
         `   Luas     = ${luas} cm²\n` +
         `   Keliling = ${keliling} cm`;
 
@@ -263,13 +263,13 @@ function demoPercabangan() {
     // Susun teks hasil
     let hasil =
         `${emoji} Nilai: ${nilai}\n\n` +
-        `📋 Proses Percabangan:\n` +
+        `   Proses Percabangan:\n` +
         `   if (${nilai} >= 90)  → ${nilai >= 90 ? "✅ TERPENUHI" : "❌ tidak"}\n` +
         `   if (${nilai} >= 75)  → ${nilai >= 75 && nilai < 90 ? "✅ TERPENUHI" : "❌ tidak"}\n` +
         `   if (${nilai} >= 60)  → ${nilai >= 60 && nilai < 75 ? "✅ TERPENUHI" : "❌ tidak"}\n` +
         `   if (${nilai} >= 40)  → ${nilai >= 40 && nilai < 60 ? "✅ TERPENUHI" : "❌ tidak"}\n` +
         `   else              → ${nilai < 40 ? "✅ TERPENUHI" : "❌ tidak"}\n\n` +
-        `🏆 Grade: ${grade}`;
+        `   Grade: ${grade}`;
 
     // Tampilkan ke output
     tampilkanOutput("output-percabangan", hasil, true);
@@ -287,7 +287,7 @@ function demoPerulangan() {
 
     // Validasi: pastikan angka antara 1 sampai 20
     if (isNaN(jumlah) || jumlah < 1 || jumlah > 20) {
-        tampilkanOutput("output-perulangan", "⚠️ Masukkan angka antara 1 sampai 20!", false);
+        tampilkanOutput("output-perulangan", "Masukkan angka antara 1 sampai 20", false);
         return;
     }
 
@@ -302,8 +302,8 @@ function demoPerulangan() {
 
     // Susun teks penjelasan proses loop
     let hasil =
-        `🔄 for (let i = 1; i <= ${jumlah}; i++)\n\n` +
-        `📊 Proses:\n`;
+        ` for (let i = 1; i <= ${jumlah}; i++)\n\n` +
+        ` Proses:\n`;
 
     // Tampilkan log setiap iterasi (maksimal 5 baris agar tidak terlalu panjang)
     let batasLog = Math.min(jumlah, 5); // tampilkan maksimal 5 iterasi
