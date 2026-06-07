@@ -55,7 +55,7 @@
     <!-- POP-UP CHECKOUT BERHASIL -->
     <div class="success-overlay" id="successOverlay">
         <div class="success-card">
-        <div class="success-icon">🎉</div>
+        <div class="success-icon" style="color:#1B6B3A"><i class="fa-solid fa-circle-check"></i></div>
         <h2 style="margin-bottom:10px">Pesanan Diproses!</h2>
         <p style="color:var(--taupe);margin-bottom:28px">Silakan hubungi penjual via fitur pesan di Dashboard untuk mengatur pembayaran dan pengiriman.</p>
         <div style="display:flex;flex-direction:column;gap:10px">
@@ -89,7 +89,7 @@
         if (cart.length === 0) {
             itemsContainer.innerHTML = `
             <div class="empty-state" style="grid-column:1/-1; background:var(--snow); border:1.5px solid var(--border); border-radius:var(--r-xl); padding: 80px 20px;">
-                <span class="empty-icon" style="font-size:4rem; color:var(--taupe); opacity:0.5;">🛒</span>
+                <span class="empty-icon" style="font-size:4rem; color:var(--taupe); opacity:0.5;"><i class="fa-solid fa-basket-shopping"></i></span>
                 <h3 style="margin-bottom:8px;">Keranjangmu masih kosong</h3>
                 <p style="margin-bottom:24px; color:var(--taupe);">Yuk, cari buku atau catatan kuliah yang kamu butuhkan!</p>
                 <a href="catalog.html" class="btn-primary">Belanja Sekarang</a>
@@ -172,7 +172,7 @@
             AppState.save();
             updateBadges(); // Fungsi global dari data.js untuk update icon navbar
             renderCart();   // Refresh tampilan keranjang
-            showToast('🗑️ Item dihapus dari keranjang');
+            showToast('<i class="fa-solid fa-trash-can"></i> Item dihapus dari keranjang');
         }
         }
 
