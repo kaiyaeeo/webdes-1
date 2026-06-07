@@ -323,7 +323,7 @@
         AppState.save();
         document.getElementById('profImg').src = avatarUrl(u.name);
         document.getElementById('dashProfile').innerHTML = `<img src="${avatarUrl(u.name)}" alt="${u.name}"/><div><h4>${u.name}</h4><p>${u.email}</p></div>`;
-        showToast('✅ Profil berhasil diperbarui!');
+        showToast('<i class="fa-solid fa-check-circle"></i> Profil berhasil diperbarui!');
         }
     </script>
     </body>
