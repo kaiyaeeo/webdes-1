@@ -138,7 +138,7 @@
             <div class="detail-tags">
             <span class="detail-tag cond-pill ${condClass(b.condition)}">${b.condition}</span>
             <span class="detail-tag">${b.location}</span>
-            ${b.lecturer ? `<span class="detail-tag">👨‍🏫 ${b.lecturer}</span>` : ''}
+            ${b.lecturer ? `<span class="detail-tag"><i class="fa-solid fa-chalkboard-user"></i> ${b.lecturer}</span>` : ''}
             <span class="detail-tag ${typeBadgeClass(b.type)}" style="border:none">${b.type}</span>
             </div>
 
@@ -153,7 +153,7 @@
             <img src="${avatarUrl(b.seller)}" alt="${b.seller}"/>
             <div style="flex:1">
                 <span class="detail-seller-name">${b.seller}</span>
-                <span class="detail-seller-meta">⭐ 4.8 · ${b.location} · <span style="color:#1B6B3A;font-weight:600">Aktif</span></span>
+                <span class="detail-seller-meta"><i class="fa-solid fa-star" style="color:#f1c40f"></i> 4.8 · ${b.location} · <span style="color:#1B6B3A;font-weight:600">Aktif</span></span>
             </div>
             <button class="btn-ghost sm" onclick="openChatPanel(${b.id})">
                 <i class="fa fa-comment-dots"></i> Chat
@@ -192,7 +192,7 @@
 
         <!-- ===== INLINE CHAT PANEL ===== -->
         <div id="chatPanel" class="hidden" style="margin-top:32px;max-width:520px">
-        <h3 style="margin-bottom:14px;font-size:1.1rem">💬 Chat dengan Penjual</h3>
+        <h3 style="margin-bottom:14px;font-size:1.1rem"><i class="fa-solid fa-comments"></i> Chat dengan Penjual</h3>
         <div class="chat-wrap">
             <div class="chat-head">
             <img id="chatSellerAvatar" src="" alt=""/>
@@ -243,15 +243,13 @@
     const idx = AppState.wishlist.findIndex(w => w.id === id);
     if (idx > -1) {
         AppState.wishlist.splice(idx, 1);
-        btn.textContent = '🤍';
-        btn.title = 'Tambah ke Wishlist';
-        showToast('💔 Dihapus dari wishlist.');
-    } else {
+        btn.innerHTML = '<i class="fa-regular fa-heart"></i>';
+        showToast('<i class="fa-solid fa-heart-crack"></i> Dihapus dari wishlist.');
+} else {
         AppState.wishlist.push(AppState.books.find(b => b.id === id));
-        btn.textContent = '❤️';
-        btn.title = 'Hapus dari Wishlist';
-        showToast('❤️ Disimpan ke wishlist!');
-    }
+        btn.innerHTML = '<i class="fa-solid fa-heart" style="color:#e74c3c"></i>';
+        showToast('<i class="fa-solid fa-heart" style="color:#e74c3c"></i> Disimpan ke wishlist!');
+}
     AppState.save();
     updateBadges();
     }
