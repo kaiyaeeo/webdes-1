@@ -164,10 +164,10 @@
             el.innerHTML = `
             <h2 class="dash-title">Selamat Datang, <em>${u.name.split(' ')[0]}</em> ✦</h2>
             <div class="stat-grid">
-                <div class="stat-card"><div class="ico">📚</div><div class="num">${ownBooks.length}</div><div class="lbl">Listing Aktif</div></div>
-                <div class="stat-card"><div class="ico">🛒</div><div class="num">${cart.length}</div><div class="lbl">Di Keranjang</div></div>
-                <div class="stat-card"><div class="ico">❤️</div><div class="num">${wish.length}</div><div class="lbl">Wishlist</div></div>
-                <div class="stat-card"><div class="ico">📋</div><div class="num">${reqs.length}</div><div class="lbl">Permintaan</div></div>
+                <div class="stat-card"><div class="ico" style="color:var(--coffee)"><i class="fa-solid fa-book-bookmark"></i></div>...</div>
+                <div class="stat-card"><div class="ico" style="color:var(--coffee)"><i class="fa-solid fa-cart-shopping"></i></div>...</div>
+                <div class="stat-card"><div class="ico" style="color:#e74c3c"><i class="fa-solid fa-heart"></i></div>...</div>
+                <div class="stat-card"><div class="ico" style="color:var(--coffee)"><i class="fa-solid fa-clipboard-list"></i></div>...</div>
             </div>
             <div class="quick-actions">
                 <a href="sell.html" class="btn-primary"><i class="fa fa-plus"></i> Jual Buku</a>
@@ -177,9 +177,9 @@
             </div>
             <h3 style="font-size:1.1rem;margin-bottom:14px">Aktivitas Terakhir</h3>
             <div class="activity-list">
-                <div class="act-item"><span class="act-ico">📚</span><span class="act-text">Akun kamu berhasil dibuat</span><span class="act-time">Baru saja</span></div>
-                <div class="act-item"><span class="act-ico">💬</span><span class="act-text">Fitur chat tersedia di setiap halaman buku</span><span class="act-time">Tips</span></div>
-                <div class="act-item"><span class="act-ico">✨</span><span class="act-text">Mulai dengan menjelajahi katalog buku kampus</span><span class="act-time">Saran</span></div>
+                <div class="act-item"><span class="act-ico"><i class="fa-solid fa-user-check"></i></span><span class="act-text">Akun kamu berhasil dibuat</span><span class="act-time">Baru saja</span></div>
+                <div class="act-item"><span class="act-ico"><i class="fa-solid fa-circle-info"></i></span><span class="act-text">Fitur chat tersedia di setiap halaman buku</span><span class="act-time">Tips</span></div>
+                <div class="act-item"><span class="act-ico"><i class="fa-regular fa-lightbulb"></i></span><span class="act-text">Mulai dengan menjelajahi katalog buku kampus</span><span class="act-time">Saran</span></div>
             </div>
             `;
         } else if (tab === 'listings') {
