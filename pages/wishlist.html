@@ -43,13 +43,13 @@
         <div class="wishlist-grid">
         
         <div class="wishlist-left">
-            <h3 style="font-size: 1.2rem; margin-bottom: 20px;">❤️ Buku Tersimpan</h3>
+            <h3 style="font-size: 1.2rem; margin-bottom: 20px;"><i class="fa-solid fa-heart" style="color:#e74c3c"></i> Buku Tersimpan</h3>
             <div class="books-grid" id="wishlistGrid"></div>
         </div>
 
         <div class="wishlist-right">
             <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h3 style="font-size: 1.2rem;">📢 Wishlist Komunitas</h3>
+            <h3 style="font-size: 1.2rem;"><i class="fa-solid fa-bullhorn"></i> Wishlist Komunitas</h3>
             <button class="btn-primary sm" onclick="toggleModal(true)">
                 <i class="fa fa-plus"></i> Pasang
             </button>
@@ -110,7 +110,7 @@
         if (wishlist.length === 0) {
             grid.innerHTML = `
             <div class="empty-state" style="grid-column: 1/-1; padding: 40px 0; text-align: center; color: var(--taupe);">
-                <span class="empty-icon" style="font-size: 3rem; display: block; margin-bottom: 10px;">🤍</span>
+                <i class="fa-regular fa-heart" style="font-size: 3rem; display: block; margin-bottom: 10px; opacity:0.4"></i>
                 <p>Belum ada buku yang kamu simpan ke wishlist.</p>
                 <a href="catalog.html" class="btn-outline sm" style="margin-top: 10px;">Jelajahi Katalog</a>
             </div>`;
@@ -134,10 +134,10 @@
         }
 
         container.innerHTML = allRequests.map(req => {
-            const budgetText = req.budget === 0 ? '🎁 Gratis / Donasi' : `Rp ${req.budget.toLocaleString('id-ID')}`;
+            const budgetText = req.budget === 0 ? '<i class="fa-solid fa-gift"></i> Gratis / Donasi' : `Rp ${req.budget.toLocaleString('id-ID')}`;
             return `
             <div class="request-item">
-                <div class="request-item-icon">📋</div>
+                <div class="request-item-icon"><i class="fa-solid fa-clipboard-question"></i></div>
                 <div class="request-item-info">
                 <h4>${req.title}</h4>
                 <span>Matkul: ${req.course}</span><br/>
