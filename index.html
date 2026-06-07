@@ -243,8 +243,8 @@
     <script src="js/data.js"></script>
     <script>
     // ===== MOUNT NAVBAR & FOOTER =====
-    document.getElementById('navbarMount').innerHTML = buildNavbar('home');
-    document.getElementById('footerMount').innerHTML = buildFooter();
+    document.getElementById('navbarMount').innerHTML = buildNavbar('home', '');
+    document.getElementById('footerMount').innerHTML = buildFooter('');
 
     // Fix sell btn for non-logged-in
     document.getElementById('heroSellBtn')?.addEventListener('click', function(e){
@@ -289,6 +289,7 @@
     function goCat(cat) {
         window.location.href = `pages/catalog.html?cat=${encodeURIComponent(cat)}`;
     }
+
     </script>
     </body>
     </html>

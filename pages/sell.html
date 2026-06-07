@@ -1,0 +1,490 @@
+    <!DOCTYPE html>
+    <html lang="id">
+    <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Jual Buku — BookCircle</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link rel="stylesheet" href="../css/main.css"/>
+    <link rel="stylesheet" href="../css/components.css"/>
+    <link rel="stylesheet" href="../css/pages.css"/>
+    <style>
+        .step-progress { display:flex; align-items:center; gap:0; margin-bottom:36px; }
+        .sp-item { display:flex; align-items:center; gap:8px; }
+        .sp-num {
+        width:30px; height:30px; border-radius:50%;
+        background:var(--border-mid); color:var(--taupe);
+        display:flex; align-items:center; justify-content:center;
+        font-size:0.82rem; font-weight:800; flex-shrink:0;
+        transition:all var(--t-med);
+        }
+        .sp-num.done  { background:var(--coffee); color:var(--snow); }
+        .sp-num.active{ background:var(--coffee); color:var(--snow); box-shadow:0 0 0 4px rgba(54,36,23,0.15); }
+        .sp-label { font-size:0.82rem; font-weight:600; color:var(--taupe); }
+        .sp-label.active { color:var(--coffee); }
+        .sp-line { flex:1; height:2px; background:var(--border-mid); margin:0 8px; min-width:20px; }
+        .sp-line.done { background:var(--coffee); }
+
+        .form-step { display:none; }
+        .form-step.active { display:block; animation: fadeUp .4s var(--ease); }
+
+        .tip-box {
+        display:flex; gap:10px; align-items:flex-start;
+        padding:14px 16px; background:var(--almond-light);
+        border:1px solid var(--almond-mid); border-radius:var(--r-md);
+        font-size:0.84rem; color:var(--text-secondary); line-height:1.5;
+        }
+        .tip-box i { color:var(--coffee); margin-top:2px; flex-shrink:0; }
+        .success-overlay {
+        position:fixed; inset:0;
+        background:rgba(0,5,0,.5);
+        backdrop-filter:blur(6px);
+        z-index:999;
+        display:none; align-items:center; justify-content:center;
+        }
+        .success-overlay.show { display:flex; }
+        .success-card {
+        background:var(--snow); border-radius:var(--r-2xl);
+        padding:48px 40px; text-align:center; max-width:400px; width:90%;
+        animation:scaleIn .3s var(--ease);
+        }
+        .success-icon { font-size:4rem; margin-bottom:16px; }
+    </style>
+    </head>
+    <body>
+
+    <div id="navbarMount"></div>
+
+    <div class="sell-wrapper">
+
+    <!-- TOP BAR -->
+    <div class="page-topbar">
+        <button class="back-btn" onclick="history.back()"><i class="fa fa-arrow-left"></i></button>
+        <h1>Jual / Bagikan Buku</h1>
+    </div>
+
+    <!-- PROGRESS STEPS -->
+    <div class="step-progress" id="stepProgress">
+        <div class="sp-item">
+        <div class="sp-num active" id="sn1">1</div>
+        <span class="sp-label active" id="sl1">Info Buku</span>
+        </div>
+        <div class="sp-line" id="sl12"></div>
+        <div class="sp-item">
+        <div class="sp-num" id="sn2">2</div>
+        <span class="sp-label" id="sl2">Kondisi & Harga</span>
+        </div>
+        <div class="sp-line" id="sl23"></div>
+        <div class="sp-item">
+        <div class="sp-num" id="sn3">3</div>
+        <span class="sp-label" id="sl3">Foto & Lokasi</span>
+        </div>
+        <div class="sp-line" id="sl34"></div>
+        <div class="sp-item">
+        <div class="sp-num" id="sn4">4</div>
+        <span class="sp-label" id="sl4">Preview & Publish</span>
+        </div>
+    </div>
+
+    <div class="sell-grid">
+
+        <!-- ===== MAIN FORM ===== -->
+        <div>
+
+        <!-- STEP 1: Info Buku -->
+        <div class="form-step active" id="step1">
+            <div class="panel" style="margin-bottom:20px">
+            <h3 style="margin-bottom:20px">📚 Informasi Buku</h3>
+
+            <div class="form-group">
+                <label class="form-label">Judul Buku *</label>
+                <input type="text" id="sTitle" class="form-control" placeholder="Cth: Kalkulus Edisi 9 – Stewart" oninput="updatePreview()"/>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                <label class="form-label">Penulis / Pengarang</label>
+                <input type="text" id="sAuthor" class="form-control" placeholder="Nama penulis" oninput="updatePreview()"/>
+                </div>
+                <div class="form-group">
+                <label class="form-label">ISBN</label>
+                <input type="text" id="sISBN" class="form-control" placeholder="Opsional"/>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                <label class="form-label">Kategori *</label>
+                <select id="sCategory" class="form-control" onchange="updatePreview()">
+                    <option value="">— Pilih Kategori —</option>
+                    <option>Teknik &amp; Sains</option>
+                    <option>Ekonomi &amp; Bisnis</option>
+                    <option>Hukum</option>
+                    <option>Kedokteran</option>
+                    <option>Bahasa &amp; Sastra</option>
+                    <option>Catatan Kuliah</option>
+                    <option>Psikologi</option>
+                    <option>Pertanian</option>
+                </select>
+                </div>
+                <div class="form-group">
+                <label class="form-label">Mata Kuliah</label>
+                <input type="text" id="sCourse" class="form-control" placeholder="Cth: Kalkulus 1" oninput="updatePreview()"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Nama Dosen Pengampu</label>
+                <input type="text" id="sLecturer" class="form-control" placeholder="Opsional – membantu pembeli menemukan buku"/>
+                <p class="form-hint">💡 Menambahkan nama dosen meningkatkan peluang buku ditemukan 3×</p>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Deskripsi</label>
+                <textarea id="sDesc" class="form-control" rows="4"
+                placeholder="Ceritakan kondisi buku, isi yang dibahas, apakah ada catatan atau stabilo yang berguna..."
+                oninput="updatePreview()"></textarea>
+            </div>
+            </div>
+
+            <div class="tip-box">
+            <i class="fa fa-lightbulb"></i>
+            <span>Semakin lengkap info buku, semakin cepat terjual. Sertakan nama dosen dan mata kuliah untuk membantu pembeli!</span>
+            </div>
+
+            <div style="display:flex;justify-content:flex-end;margin-top:20px">
+            <button class="btn-primary lg" onclick="goStep(2)">Lanjut <i class="fa fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- STEP 2: Kondisi & Harga -->
+        <div class="form-step" id="step2">
+            <div class="panel" style="margin-bottom:20px">
+            <h3 style="margin-bottom:20px">💰 Kondisi &amp; Harga</h3>
+
+            <div class="form-group">
+                <label class="form-label">Kondisi Buku *</label>
+                <div class="radio-group">
+                <label class="radio-opt"><input type="radio" name="cond" value="Seperti Baru" onchange="updatePreview()"/> ✨ Seperti Baru</label>
+                <label class="radio-opt"><input type="radio" name="cond" value="Cukup Baik"  onchange="updatePreview()"/> 👍 Cukup Baik</label>
+                <label class="radio-opt"><input type="radio" name="cond" value="Ada Coretan"  onchange="updatePreview()"/> ✏️ Ada Coretan</label>
+                <label class="radio-opt"><input type="radio" name="cond" value="Fotokopi"     onchange="updatePreview()"/> 📄 Fotokopi</label>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top:8px">
+                <label class="form-label">Jenis Listing *</label>
+                <div class="radio-group">
+                <label class="radio-opt"><input type="radio" name="type" value="Dijual"  onchange="onTypeChange()"/> 🏷️ Dijual</label>
+                <label class="radio-opt"><input type="radio" name="type" value="Ditukar" onchange="onTypeChange()"/> 🔄 Ditukar</label>
+                <label class="radio-opt"><input type="radio" name="type" value="Donasi"  onchange="onTypeChange()"/> 🎁 Donasi Gratis</label>
+                </div>
+            </div>
+
+            <div class="form-group" id="priceGroup">
+                <label class="form-label">Harga (Rp) *</label>
+                <div class="input-icon-wrap">
+                <i class="fa fa-tag input-icon"></i>
+                <input type="number" id="sPrice" class="form-control" placeholder="Cth: 75000" min="0" oninput="updatePreview()"/>
+                </div>
+                <p class="form-hint">💡 Harga buku bekas biasanya 50–70% dari harga toko baru</p>
+            </div>
+
+            <div class="form-group" id="swapGroup" style="display:none">
+                <label class="form-label">Buku yang Diinginkan</label>
+                <textarea id="sSwapNote" class="form-control" rows="3"
+                placeholder="Cth: Mau ditukar dengan buku Struktur Data atau Basis Data edisi berapa pun..."></textarea>
+            </div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;margin-top:20px">
+            <button class="btn-outline lg" onclick="goStep(1)"><i class="fa fa-arrow-left"></i> Kembali</button>
+            <button class="btn-primary lg" onclick="goStep(3)">Lanjut <i class="fa fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <!-- STEP 3: Foto & Lokasi -->
+        <div class="form-step" id="step3">
+            <div class="panel" style="margin-bottom:20px">
+            <h3 style="margin-bottom:20px">📸 Foto Buku</h3>
+            <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+                <i class="fa fa-camera"></i>
+                <p>Klik atau seret foto buku ke sini</p>
+                <small>Maks. 5 foto · Format JPG, PNG · Maks 5MB per foto</small>
+                <div class="upload-previews" id="uploadPreviews"></div>
+            </div>
+            <input type="file" id="fileInput" multiple accept="image/*" style="display:none" onchange="handleUpload(event)"/>
+            <p class="form-hint" style="margin-top:10px">💡 Foto yang jelas meningkatkan kepercayaan pembeli. Ambil dari berbagai sisi!</p>
+            </div>
+
+            <div class="panel" style="margin-bottom:20px">
+            <h3 style="margin-bottom:20px">📍 Lokasi &amp; Kontak</h3>
+
+            <div class="form-group">
+                <label class="form-label">Kampus / Kota *</label>
+                <div class="input-icon-wrap">
+                <i class="fa fa-map-marker-alt input-icon"></i>
+                <input type="text" id="sLocation" class="form-control"
+                    placeholder="Cth: UNSOED Purwokerto" oninput="updatePreview()"
+                    value="${AppState.user?.campus || ''}"/>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                <label class="form-label">Metode Pengiriman</label>
+                <div class="filter-check-list" style="margin-top:6px">
+                    <label class="filter-check"><input type="checkbox" id="mCOD"   checked/> COD (Ketemu Langsung)</label>
+                    <label class="filter-check"><input type="checkbox" id="mJNE"        /> JNE / Sicepat / J&amp;T</label>
+                    <label class="filter-check"><input type="checkbox" id="mGojek"      /> GoSend / GrabExpress</label>
+                </div>
+                </div>
+                <div class="form-group">
+                <label class="form-label">Nomor WhatsApp</label>
+                <div class="input-icon-wrap">
+                    <i class="fab fa-whatsapp input-icon" style="color:#25D366"></i>
+                    <input type="text" id="sWA" class="form-control" placeholder="Cth: 0812xxxxxxxx"/>
+                </div>
+                </div>
+            </div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;margin-top:20px">
+            <button class="btn-outline lg" onclick="goStep(2)"><i class="fa fa-arrow-left"></i> Kembali</button>
+            <button class="btn-primary lg" onclick="goStep(4)">Preview <i class="fa fa-eye"></i></button>
+            </div>
+        </div>
+
+        <!-- STEP 4: Preview & Publish -->
+        <div class="form-step" id="step4">
+            <div class="panel" style="margin-bottom:20px">
+            <h3 style="margin-bottom:20px">👁️ Preview Listing</h3>
+            <div id="previewFull"></div>
+            </div>
+
+            <div class="tip-box" style="margin-bottom:20px">
+            <i class="fa fa-check-circle" style="color:#1B6B3A"></i>
+            <span>Periksa kembali detail listing kamu sebelum dipublikasikan. Kamu bisa mengedit kapan saja setelah dipublish.</span>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;margin-top:20px">
+            <button class="btn-outline lg" onclick="goStep(3)"><i class="fa fa-arrow-left"></i> Kembali</button>
+            <button class="btn-primary lg" onclick="publishListing()">
+                <i class="fa fa-rocket"></i> Publikasikan Sekarang!
+            </button>
+            </div>
+        </div>
+
+        </div>
+
+        <!-- ===== SIDE PANEL ===== -->
+        <div>
+        <!-- Mini preview card -->
+        <div class="panel" style="margin-bottom:16px">
+            <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;color:var(--text-secondary)">Preview Kartu</h4>
+            <div id="sidePreview" class="preview-mini">
+            <p class="preview-placeholder">Mulai isi form untuk melihat preview</p>
+            </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="panel">
+            <h4 style="font-size:0.88rem;font-weight:700;margin-bottom:14px">💡 Tips Cepat Laku</h4>
+            <ul style="display:flex;flex-direction:column;gap:10px">
+            ${[
+                'Tambahkan nama dosen agar mudah ditemukan',
+                'Foto buku dari depan, belakang, dan beberapa halaman isi',
+                'Tulis kondisi secara jujur untuk membangun kepercayaan',
+                'Harga wajar = 50–70% harga toko baru',
+                'Aktif balas chat agar pembeli tidak kabur',
+            ].map(t => `<li style="display:flex;gap:8px;font-size:0.83rem;color:var(--text-secondary)"><span style="color:var(--coffee);font-weight:700">✓</span>${t}</li>`).join('')}
+            </ul>
+        </div>
+        </div>
+
+    </div>
+    </div>
+
+    <!-- SUCCESS OVERLAY -->
+    <div class="success-overlay" id="successOverlay">
+    <div class="success-card">
+        <div class="success-icon">🎉</div>
+        <h2 style="margin-bottom:10px">Listing Dipublikasikan!</h2>
+        <p style="color:var(--taupe);margin-bottom:28px">Bukumu sudah bisa ditemukan oleh pembeli. Pastikan kamu aktif membalas pesan!</p>
+        <div style="display:flex;flex-direction:column;gap:10px">
+        <a href="catalog.html" class="btn-primary full lg">Lihat di Katalog</a>
+        <a href="dashboard.html" class="btn-outline full">Ke Dashboard</a>
+        </div>
+    </div>
+    </div>
+
+    <div id="footerMount"></div>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+    /* Require login */
+    if (!Auth.check()) window.location.href = 'login.html?redirect=sell.html';
+
+    document.getElementById('navbarMount').innerHTML = buildNavbar('', '../');
+    document.getElementById('footerMount').innerHTML = buildFooter('../');
+
+    // Pre-fill location
+    if (AppState.user?.campus) {
+        document.getElementById('sLocation').value = AppState.user.campus;
+    }
+
+    let currentStep = 1;
+    const TOTAL_STEPS = 4;
+
+    function goStep(n) {
+        // Validate before moving forward
+        if (n > currentStep) {
+        if (currentStep === 1) {
+            if (!document.getElementById('sTitle').value.trim()) { showToast('⚠️ Judul buku wajib diisi'); return; }
+            if (!document.getElementById('sCategory').value)     { showToast('⚠️ Pilih kategori buku'); return; }
+        }
+        if (currentStep === 2) {
+            const cond = document.querySelector('input[name="cond"]:checked');
+            const type = document.querySelector('input[name="type"]:checked');
+            if (!cond) { showToast('⚠️ Pilih kondisi buku'); return; }
+            if (!type) { showToast('⚠️ Pilih jenis listing'); return; }
+            if (type.value === 'Dijual' && !document.getElementById('sPrice').value) {
+            showToast('⚠️ Isi harga jual buku'); return;
+            }
+        }
+        if (currentStep === 3) {
+            if (!document.getElementById('sLocation').value.trim()) { showToast('⚠️ Isi lokasi / kampus'); return; }
+        }
+        }
+
+        document.getElementById('step'+currentStep).classList.remove('active');
+        currentStep = n;
+        document.getElementById('step'+currentStep).classList.add('active');
+        updateStepUI();
+
+        if (n === 4) renderFullPreview();
+        window.scrollTo({ top:0, behavior:'smooth' });
+    }
+
+    function updateStepUI() {
+        for (let i = 1; i <= TOTAL_STEPS; i++) {
+        const num = document.getElementById('sn'+i);
+        const lbl = document.getElementById('sl'+i);
+        num.className = 'sp-num' + (i < currentStep ? ' done' : i === currentStep ? ' active' : '');
+        lbl.className = 'sp-label' + (i === currentStep ? ' active' : '');
+        if (i < TOTAL_STEPS) {
+            const line = document.getElementById('sl'+i+(i+1));
+            if (line) line.className = 'sp-line' + (i < currentStep ? ' done' : '');
+        }
+        }
+    }
+
+    function onTypeChange() {
+        const type = document.querySelector('input[name="type"]:checked')?.value;
+        document.getElementById('priceGroup').style.display = type === 'Dijual'  ? 'block' : 'none';
+        document.getElementById('swapGroup').style.display  = type === 'Ditukar' ? 'block' : 'none';
+        updatePreview();
+    }
+
+    function handleUpload(e) {
+        const files    = Array.from(e.target.files);
+        const previews = document.getElementById('uploadPreviews');
+        previews.innerHTML = '';
+        files.slice(0,5).forEach(f => {
+        const url = URL.createObjectURL(f);
+        previews.innerHTML += `<img src="${url}" alt="preview"/>`;
+        });
+        const ph = document.querySelector('#uploadZone > i, #uploadZone > p, #uploadZone > small');
+    }
+
+    const BOOK_COLORS = ['#362417','#92817A','#5C3D28','#4A2E1A','#F1DABF','#B09990','#000500'];
+    const BOOK_TCLRS  = ['#F1DABF','#FFFBFF','#F9EFE3','#F9EFE3','#362417','#FFFBFF','#F9EFE3'];
+
+    function getFormData() {
+        const ci = Math.floor(Math.random() * BOOK_COLORS.length);
+        return {
+        title:     document.getElementById('sTitle').value.trim(),
+        author:    document.getElementById('sAuthor').value.trim()   || 'Tidak diketahui',
+        isbn:      document.getElementById('sISBN').value.trim(),
+        category:  document.getElementById('sCategory').value,
+        course:    document.getElementById('sCourse').value.trim()   || document.getElementById('sCategory').value,
+        lecturer:  document.getElementById('sLecturer').value.trim(),
+        desc:      document.getElementById('sDesc').value.trim()     || 'Tidak ada deskripsi.',
+        condition: document.querySelector('input[name="cond"]:checked')?.value || '',
+        type:      document.querySelector('input[name="type"]:checked')?.value || '',
+        price:     parseInt(document.getElementById('sPrice').value) || 0,
+        location:  document.getElementById('sLocation').value.trim(),
+        clr:       BOOK_COLORS[ci],
+        tcl:       BOOK_TCLRS[ci],
+        };
+    }
+
+    function updatePreview() {
+        const d = getFormData();
+        const side = document.getElementById('sidePreview');
+        if (!d.title) { side.innerHTML = '<p class="preview-placeholder">Mulai isi form untuk melihat preview</p>'; return; }
+        const priceTxt = d.type==='Donasi' ? '🎁 Gratis' : d.type==='Ditukar' ? '🔄 Tukar' : d.price ? `Rp ${d.price.toLocaleString('id-ID')}` : '—';
+        side.innerHTML = `
+        <div style="display:flex;gap:12px;align-items:center">
+            <div style="width:48px;height:64px;border-radius:3px 8px 8px 3px;background:${d.clr};display:flex;align-items:center;justify-content:center;padding:5px;flex-shrink:0;box-shadow:var(--shadow-md)">
+            <span style="color:${d.tcl};font-size:0.55rem;font-family:'Playfair Display',serif;font-weight:800;text-align:center">${d.title.substring(0,20)}</span>
+            </div>
+            <div>
+            <div class="preview-mini-title">${d.title}</div>
+            <div class="preview-mini-author">${d.author}</div>
+            <div class="preview-mini-price">${priceTxt}</div>
+            ${d.condition ? `<span class="cond-pill ${condClass(d.condition)}" style="font-size:0.68rem;padding:2px 7px;margin-top:4px;display:inline-block">${d.condition}</span>` : ''}
+            </div>
+        </div>`;
+    }
+
+    function renderFullPreview() {
+        const d = getFormData();
+        document.getElementById('previewFull').innerHTML = `
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start">
+            <div style="width:120px;height:160px;border-radius:4px 14px 14px 4px;background:${d.clr};display:flex;align-items:center;justify-content:center;padding:14px;box-shadow:var(--shadow-lg)">
+            <span style="color:${d.tcl};font-family:'Playfair Display',serif;font-size:0.78rem;font-weight:800;text-align:center">${d.title}</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:0.76rem;color:var(--coffee);font-weight:700;text-transform:uppercase;letter-spacing:.06em">${d.category}</span>
+            <h2 style="font-size:1.2rem;line-height:1.2">${d.title}</h2>
+            <p style="font-size:0.85rem;color:var(--taupe)">${d.author}</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+                ${d.condition ? `<span class="cond-pill ${condClass(d.condition)}">${d.condition}</span>` : ''}
+                ${d.course    ? `<span class="detail-tag">${d.course}</span>` : ''}
+                ${d.lecturer  ? `<span class="detail-tag">👨‍🏫 ${d.lecturer}</span>` : ''}
+            </div>
+            <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--coffee)">
+                ${d.type==='Donasi'?'🎁 Gratis':d.type==='Ditukar'?'🔄 Tukar':d.price?`Rp ${d.price.toLocaleString('id-ID')}`:'—'}
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6">${d.desc}</p>
+            <p style="font-size:0.8rem;color:var(--taupe)"><i class="fa fa-map-marker-alt"></i> ${d.location||'—'}</p>
+            </div>
+        </div>`;
+    }
+
+    function publishListing() {
+        const d = getFormData();
+        if (!d.title || !d.category || !d.condition || !d.type || !d.location) {
+        showToast('⚠️ Lengkapi semua field wajib terlebih dahulu'); return;
+        }
+
+        const newBook = {
+        id: Date.now(),
+        ...d,
+        seller:   AppState.user.name,
+        sellerId: 'me',
+        isOwn:    true,
+        };
+        AppState.books.unshift(newBook);
+        AppState.save();
+
+        document.getElementById('successOverlay').classList.add('show');
+    }
+    </script>
+    </body>
+    </html>

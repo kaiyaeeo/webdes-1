@@ -162,6 +162,10 @@
         renderTab(tab);
     }
 
+        /* ===== MOUNT NAVBAR & FOOTER ===== */
+    document.getElementById('navbarMount').innerHTML = buildNavbar('catalog', '../');
+    document.getElementById('footerMount').innerHTML = buildFooter('../');
+
     function renderTab(tab) {
         const el = document.getElementById('dashMain');
         const u = getUser();

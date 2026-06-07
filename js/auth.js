@@ -1,96 +1,84 @@
-    // js/auth.js
+    /* =====================================================
+    auth.js — Autentikasi & Session Management
+    BookCircle Platform
+    ===================================================== */
 
-    function getUser() {
-    try { return JSON.parse(localStorage.getItem('bc_user')); } catch { return null; }
-    }
-    function setUser(u) { localStorage.setItem('bc_user', JSON.stringify(u)); }
-    function clearUser() { localStorage.removeItem('bc_user'); }
+    const Auth = {
+    /**
+     * Cek apakah pengguna sudah login
+     */
+    check() {
+        return !!AppState.user;
+    },
 
-    function getCart() { return JSON.parse(localStorage.getItem('bc_cart') || '[]'); }
-    function setCart(c) { localStorage.setItem('bc_cart', JSON.stringify(c)); }
-    function getWishlist() { return JSON.parse(localStorage.getItem('bc_wish') || '[]'); }
-    function setWishlist(w) { localStorage.setItem('bc_wish', JSON.stringify(w)); }
-    function getRequests() { return JSON.parse(localStorage.getItem('bc_req') || '[]'); }
-    function setRequests(r) { localStorage.setItem('bc_req', JSON.stringify(r)); }
-
-    /** Render the right-side of navbar based on auth state */
-    function renderNavRight() {
-    const el = document.getElementById('navRight');
-    if (!el) return;
-    const user = getUser();
-    const cart = getCart();
-    const wish = getWishlist();
-
-    const base = window.location.pathname.includes('/pages/') ? '../' : '';
-
-    if (user) {
-        el.innerHTML = `
-        <a class="btn-ico" href="${base}pages/wishlist.html" title="Wishlist">
-            <i class="fa fa-heart"></i>
-            <span class="badge">${wish.length}</span>
-        </a>
-        <a class="btn-ico" href="${base}pages/cart.html" title="Keranjang">
-            <i class="fa fa-shopping-bag"></i>
-            <span class="badge">${cart.length}</span>
-        </a>
-        <div class="user-chip" onclick="toggleDrop()">
-            <img src="${user.avatar}" alt="${user.name}" title="${user.name}"/>
-            <div class="u-drop" id="uDrop">
-            <a href="${base}pages/dashboard.html"><i class="fa fa-th-large"></i> Dashboard</a>
-            <a href="${base}pages/sell.html"><i class="fa fa-plus-circle"></i> Jual Buku</a>
-            <div class="u-drop-div"></div>
-            <a href="#" onclick="doLogout(event)"><i class="fa fa-sign-out-alt"></i> Keluar</a>
-            </div>
-        </div>
-        `;
-    } else {
-        el.innerHTML = `
-        <a href="${base}pages/login.html" class="btn-outline">Masuk</a>
-        <a href="${base}pages/register.html" class="btn-primary">Daftar</a>
-        `;
-    }
-    }
-
-    function toggleDrop() {
-    const d = document.getElementById('uDrop');
-    if (d) d.classList.toggle('open');
-    }
-    document.addEventListener('click', (e) => {
-    if (!e.target.closest('.user-chip')) {
-        const d = document.getElementById('uDrop');
-        if (d) d.classList.remove('open');
-    }
-    });
-
-    function doLogout(e) {
-    e.preventDefault();
-    clearUser();
-    showToast('👋 Berhasil keluar.');
-    setTimeout(() => {
-        const base = window.location.pathname.includes('/pages/') ? '../' : '';
-        window.location.href = base + 'index.html';
-    }, 800);
-    }
-
-    /** Redirect to login if not authenticated, with redirect-back */
-    function requireAuth(redirectTo) {
-    if (!getUser()) {
-        const base = window.location.pathname.includes('/pages/') ? '' : 'pages/';
-        window.location.href = `${base}login.html?redirect=${encodeURIComponent(redirectTo || '')}`;
+    /**
+     * Redirect ke login jika belum login
+     * @param {string} redirectAfter - URL tujuan setelah login
+     */
+    requireAuth(redirectAfter) {
+        if (!this.check()) {
+        const target = redirectAfter || window.location.pathname + window.location.search;
+        window.location.href = `login.html?redirect=${encodeURIComponent(target)}`;
         return false;
-    }
-    return true;
-    }
+        }
+        return true;
+    },
 
-    // Init navbar on every page
-    document.addEventListener('DOMContentLoaded', () => {
-    renderNavRight();
-    // scroll effect
-    window.addEventListener('scroll', () => {
-        document.getElementById('navbar')?.classList.toggle('scrolled', window.scrollY > 10);
-    });
-    // hamburger
-    document.getElementById('hamburger')?.addEventListener('click', () => {
-        document.getElementById('navLinks')?.classList.toggle('open');
-    });
-    });
+    /**
+     * Login user (simulasi)
+     */
+    login(email, password) {
+        if (!email || !password) return { ok: false, msg: '⚠️ Isi semua field terlebih dahulu' };
+        if (!email.includes('@')) return { ok: false, msg: '⚠️ Format email tidak valid' };
+        if (password.length < 4) return { ok: false, msg: '⚠️ Password terlalu pendek' };
+
+        const name = email.split('@')[0]
+        .replace(/[._]/g, ' ')
+        .replace(/\b\w/g, l => l.toUpperCase());
+
+        AppState.user = { name, email, campus: 'UNSOED Purwokerto', major: '', year: '' };
+        localStorage.setItem('bc_user', JSON.stringify(AppState.user));
+        return { ok: true };
+    },
+
+    /**
+     * Register user baru
+     */
+    register(data) {
+        const { firstName, email, campus, password, confirmPassword, agree } = data;
+        if (!firstName)            return { ok: false, msg: '⚠️ Nama depan harus diisi' };
+        if (!email.includes('@'))  return { ok: false, msg: '⚠️ Format email tidak valid' };
+        if (!campus)               return { ok: false, msg: '⚠️ Isi nama kampus kamu' };
+        if (password.length < 8)   return { ok: false, msg: '⚠️ Password minimal 8 karakter' };
+        if (password !== confirmPassword) return { ok: false, msg: '⚠️ Konfirmasi password tidak cocok' };
+        if (!agree)                return { ok: false, msg: '⚠️ Setujui syarat & ketentuan terlebih dahulu' };
+
+        AppState.user = { name: firstName + (data.lastName ? ' ' + data.lastName : ''), email, campus, major: data.major || '', year: data.year || '' };
+        localStorage.setItem('bc_user', JSON.stringify(AppState.user));
+        return { ok: true };
+    },
+
+    /**
+     * Logout
+     */
+    logout() {
+        AppState.logout();
+        showToast('👋 Berhasil keluar!');
+        setTimeout(() => window.location.href = '../index.html', 800);
+    },
+
+    /**
+     * Update profil pengguna
+     */
+    updateProfile(data) {
+        if (!AppState.user) return { ok: false, msg: 'Tidak ada sesi aktif' };
+        if (!data.name) return { ok: false, msg: '⚠️ Nama tidak boleh kosong' };
+        Object.assign(AppState.user, data);
+        localStorage.setItem('bc_user', JSON.stringify(AppState.user));
+        AppState.save();
+        return { ok: true };
+    }
+    };
+
+    /* Expose doLogout globally (dipakai di navbar dropdown) */
+    function doLogout() { Auth.logout(); }

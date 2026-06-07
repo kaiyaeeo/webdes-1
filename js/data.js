@@ -112,17 +112,19 @@
     }
 
     // Inject navbar HTML (shared)
-    function buildNavbar(activePage) {
+    // Tambahkan parameter `prefix` dengan nilai bawaan string kosong
+    function buildNavbar(activePage, prefix = '') {
     const loggedIn = isLoggedIn();
     const u = AppState.user;
     const cartCount = AppState.cart.length;
     const wishCount = AppState.wishlist.length;
 
+    // Gunakan prefix untuk menyesuaikan path
     const links = [
-        { href:'../index.html',       label:'Beranda',   id:'home'      },
-        { href:'catalog.html',        label:'Katalog',   id:'catalog'   },
-        { href:'wishlist.html',       label:'Wishlist',  id:'wishlist'  },
-        { href:'../index.html#tentang', label:'Tentang', id:'about'     },
+        { href: prefix + 'index.html',           label:'Beranda',   id:'home'      },
+        { href: prefix + 'pages/catalog.html',   label:'Katalog',   id:'catalog'   },
+        { href: prefix + 'pages/wishlist.html',  label:'Wishlist',  id:'wishlist'  },
+        { href: prefix + 'index.html#tentang',   label:'Tentang',   id:'about'     },
     ];
 
     const linksHTML = links.map(l =>
@@ -130,30 +132,30 @@
     ).join('');
 
     const rightHTML = loggedIn ? `
-        <a href="cart.html" class="btn-icon" title="Keranjang">
+        <a href="${prefix}pages/cart.html" class="btn-icon" title="Keranjang">
         <i class="fa fa-shopping-bag"></i>
         <span class="nav-badge" id="cartBadge">${cartCount}</span>
         </a>
-        <a href="wishlist.html" class="btn-icon" title="Wishlist">
+        <a href="${prefix}pages/wishlist.html" class="btn-icon" title="Wishlist">
         <i class="fa fa-heart"></i>
         <span class="nav-badge" id="wishBadge">${wishCount}</span>
         </a>
         <div class="user-avatar-wrap">
-        <img src="${avatarUrl(u.name)}" class="user-avatar" onclick="toggleDropdown()" alt="${u.name}"/>
+        <img src="${avatarUrl(u?.name || '')}" class="user-avatar" onclick="toggleDropdown()" alt="${u?.name || ''}"/>
         <div class="user-dropdown hidden" id="userDropdown">
-            <a href="dashboard.html"><i class="fa fa-th-large"></i> Dashboard</a>
-            <a href="sell.html"><i class="fa fa-plus-circle"></i> Jual Buku</a>
+            <a href="${prefix}pages/dashboard.html"><i class="fa fa-th-large"></i> Dashboard</a>
+            <a href="${prefix}pages/sell.html"><i class="fa fa-plus-circle"></i> Jual Buku</a>
             <div class="dropdown-divider"></div>
             <a href="#" onclick="doLogout()"><i class="fa fa-sign-out-alt"></i> Keluar</a>
         </div>
         </div>
     ` : `
-        <a href="cart.html" class="btn-icon" title="Keranjang">
+        <a href="${prefix}pages/cart.html" class="btn-icon" title="Keranjang">
         <i class="fa fa-shopping-bag"></i>
         <span class="nav-badge" id="cartBadge">${cartCount}</span>
         </a>
-        <a href="login.html" class="btn-outline sm">Masuk</a>
-        <a href="register.html" class="btn-primary sm">Daftar</a>
+        <a href="${prefix}pages/login.html" class="btn-outline sm">Masuk</a>
+        <a href="${prefix}pages/register.html" class="btn-primary sm">Daftar</a>
     `;
 
     const mobileLinks = links.map(l =>
@@ -163,7 +165,7 @@
     return `
         <nav class="navbar" id="navbar">
         <div class="nav-inner">
-            <a href="../index.html" class="nav-logo">
+            <a href="${prefix}index.html" class="nav-logo">
             <span class="logo-star">✦</span> BookCircle
             </a>
             <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
@@ -178,19 +180,19 @@
         <div class="mobile-nav-divider"></div>
         ${loggedIn
             ? `<div class="mobile-nav-actions">
-                <a href="dashboard.html" class="btn-outline sm full">Dashboard</a>
+                <a href="${prefix}pages/dashboard.html" class="btn-outline sm full">Dashboard</a>
                 <a href="#" onclick="doLogout()" class="btn-primary sm full">Keluar</a>
             </div>`
             : `<div class="mobile-nav-actions">
-                <a href="login.html" class="btn-outline sm">Masuk</a>
-                <a href="register.html" class="btn-primary sm">Daftar</a>
+                <a href="${prefix}pages/login.html" class="btn-outline sm">Masuk</a>
+                <a href="${prefix}pages/register.html" class="btn-primary sm">Daftar</a>
             </div>`}
         </div>
         <div class="toast" id="toast"></div>
     `;
     }
 
-    function buildFooter() {
+    function buildFooter(prefix = '') {
     return `
         <footer class="footer">
         <div class="footer-top">
@@ -205,10 +207,10 @@
             </div>
             <div class="footer-col">
             <h4>Platform</h4>
-            <a href="catalog.html">Katalog Buku</a>
-            <a href="sell.html">Jual Buku</a>
-            <a href="wishlist.html">Wishlist</a>
-            <a href="dashboard.html">Dashboard</a>
+            <a href="${prefix}pages/catalog.html">Katalog Buku</a>
+            <a href="${prefix}pages/sell.html">Jual Buku</a>
+            <a href="${prefix}pages/wishlist.html">Wishlist</a>
+            <a href="${prefix}pages/dashboard.html">Dashboard</a>
             </div>
             <div class="footer-col">
             <h4>Dukungan</h4>

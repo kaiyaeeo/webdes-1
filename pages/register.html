@@ -224,6 +224,10 @@
         showToast(`🎉 Akun berhasil dibuat! Selamat datang, ${first}!`);
         setTimeout(() => window.location.href = 'dashboard.html', 900);
     }
+
+        /* ===== MOUNT NAVBAR & FOOTER ===== */
+    document.getElementById('navbarMount').innerHTML = buildNavbar('catalog', '../');
+    document.getElementById('footerMount').innerHTML = buildFooter('../');
     </script>
     </body>
     </html>
