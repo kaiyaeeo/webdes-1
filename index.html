@@ -1,295 +1,411 @@
-    <!DOCTYPE html>
-    <html lang="id">
-    <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>BookCircle — Sirkulasi Buku & Catatan Kampus</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    <link rel="stylesheet" href="css/main.css"/>
-    <link rel="stylesheet" href="css/components.css"/>
-    <link rel="stylesheet" href="css/pages.css"/>
-    <style>
-        .page-body { padding-top: 66px; }
-        /* Prevent nav-links href jump */
-        html { scroll-padding-top: 80px; }
-    </style>
-    </head>
-    <body>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinau Pemrograman Dasar</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Code+Pro:wght@400;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <!-- NAVBAR injected by JS -->
-    <div id="navbarMount"></div>
+<!-- NAVIGASI -->    
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">Sinau<em>Pemrograman.</em></h1>
+           
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
 
-    <!-- ===== HERO ===== -->
-    <section class="hero" id="beranda">
-    <div class="hero-bg">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="hero-grain"></div>
-    </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#pengantar" onclick="closeMenu()">Pengantar</a></li>
+                <li><a href="#variabel" onclick="closeMenu()">Variabel</a></li>
+                <li><a href="#operator" onclick="closeMenu()">Operator</a></li>
+                <li><a href="#percabangan" onclick="closeMenu()">Percabangan</a></li>
+                <li><a href="#perulangan" onclick="closeMenu()">Perulangan</a></li>
+                <li><a href="#fungsi" onclick="closeMenu()">Fungsi</a></li>
+            </ul>
+        </div>
+    </nav>
 
-    <div class="hero-content anim-fadeUp">
-        <div class="hero-eyebrow">✦ Platform Mahasiswa Indonesia</div>
-        <h1 class="hero-title">
-        Buku Bekas,<br/><em>Nilai Baru.</em>
-        </h1>
-        <p class="hero-sub">
-        Jual, beli, tukar, atau donasikan buku teks & catatan kuliahmu.
-        Hemat lebih banyak, belajar lebih jauh.
-        </p>
-
-        <div class="hero-search-wrap">
-        <div class="search-bar">
-            <i class="fa fa-search"></i>
-            <input type="text" id="heroSearch" placeholder="Cari buku, mata kuliah, atau nama dosen..." onkeydown="if(event.key==='Enter')goSearch()"/>
-            <button class="search-btn" onclick="goSearch()">Cari Buku</button>
-        </div>
-        </div>
-
-        <div class="hero-quick-tags">
-        <span class="quick-tag" onclick="goSearchQuery('Kalkulus')">Kalkulus</span>
-        <span class="quick-tag" onclick="goSearchQuery('Fisika')">Fisika Dasar</span>
-        <span class="quick-tag" onclick="goSearchQuery('Ekonomi')">Ekonomi</span>
-        <span class="quick-tag" onclick="goSearchQuery('Pemrograman')">Pemrograman</span>
-        <span class="quick-tag" onclick="goSearchQuery('Hukum')">Hukum</span>
-        <span class="quick-tag" onclick="goSearchQuery('Catatan Kuliah')">Catatan Kuliah</span>
-        </div>
-
-        <div class="hero-cta">
-        <a href="pages/catalog.html" class="btn-primary lg"><i class="fa fa-compass"></i> Jelajahi Katalog</a>
-        <a href="pages/sell.html"    class="btn-outline lg" id="heroSellBtn"><i class="fa fa-plus"></i> Jual Bukumu</a>
-        </div>
-    </div>
-
-    <div class="hero-visual anim-fadeUp anim-d3">
-        <div class="books-float">
-        <div class="float-book fb-1"><span>Kalkulus</span></div>
-        <div class="float-book fb-2"><span>Fisika Dasar</span></div>
-        <div class="float-book fb-3"><span>Algoritma</span></div>
-        <div class="float-book fb-4"><span>Ekonomi Mikro</span></div>
-        </div>
-    </div>
-    </section>
-
-    <!-- ===== STATS ===== -->
-    <div class="stats-strip">
-    <div class="stats-inner">
-        <div class="stat-item">
-        <span class="stat-num" data-target="2400">0</span>
-        <span class="stat-label">Buku Tersedia</span>
-        </div>
-        <div class="stat-sep"></div>
-        <div class="stat-item">
-        <span class="stat-num" data-target="1800">0</span>
-        <span class="stat-label">Mahasiswa Aktif</span>
-        </div>
-        <div class="stat-sep"></div>
-        <div class="stat-item">
-        <span class="stat-num" data-target="340">0</span>
-        <span class="stat-label">Kampus Terdaftar</span>
-        </div>
-        <div class="stat-sep"></div>
-        <div class="stat-item">
-        <span class="stat-num" data-target="95">0</span>
-        <span class="stat-label">% Kepuasan</span>
-        </div>
-    </div>
-    </div>
-
-    <!-- ===== CATEGORIES ===== -->
-    <section class="section" id="kategori">
-    <div class="section-wrap">
-        <div class="section-header">
-        <h2>Telusuri <em>Kategori</em></h2>
-        <a href="pages/catalog.html" class="see-all">Lihat semua →</a>
-        </div>
-        <div class="cat-grid">
-        <div class="cat-card" onclick="goCat('Teknik & Sains')">
-            <div class="cat-emoji"><i class="fa-solid fa-flask"></i></div>
-            <h3>Teknik & Sains</h3>
-            <p>324 buku</p>
-        </div>
-        <div class="cat-card" onclick="goCat('Ekonomi & Bisnis')">
-            <div class="cat-emoji"><i class="fa-solid fa-chart-line"></i></div>
-            <h3>Ekonomi & Bisnis</h3>
-            <p>218 buku</p>
-        </div>
-        <div class="cat-card" onclick="goCat('Hukum')">
-            <div class="cat-emoji"><i class="fa-solid fa-scale-balanced"></i></div>
-            <h3>Hukum</h3>
-            <p>145 buku</p>
-        </div>
-        <div class="cat-card" onclick="goCat('Kedokteran')">
-            <div class="cat-emoji"><i class="fa-solid fa-stethoscope"></i></div>
-            <h3>Kedokteran</h3>
-            <p>189 buku</p>
-        </div>
-        <div class="cat-card" onclick="goCat('Bahasa & Sastra')">
-            <div class="cat-emoji"><i class="fa-solid fa-pen-nib"></i></div>
-            <h3>Bahasa & Sastra</h3>
-            <p>97 buku</p>
-        </div>
-        <div class="cat-card" onclick="goCat('Catatan Kuliah')">
-            <div class="cat-emoji"><i class="fa-solid fa-note-sticky"></i></div>
-            <h3>Catatan Kuliah</h3>
-            <p>512 item</p>
-        </div>
-        <div class="cat-card" onclick="goCat('Psikologi')">
-            <div class="cat-emoji"><i class="fa-solid fa-brain"></i></div>
-            <h3>Psikologi</h3>
-            <p>86 buku</p>
-        </div>
-        <div class="cat-card" onclick="goCat('Pertanian')">
-            <div class="cat-emoji"><i class="fa-solid fa-seedling"></i></div>
-            <h3>Pertanian</h3>
-            <p>73 buku</p>
-        </div>
-        </div>
-    </div>
-    </section>
-
-    <!-- ===== FEATURED BOOKS ===== -->
-    <div class="featured-section">
-    <div class="section-wrap">
-        <div class="section-header">
-        <h2>Buku <em>Terbaru</em></h2>
-        <a href="pages/catalog.html" class="see-all">Lihat semua →</a>
-        </div>
-        <div class="books-grid" id="featuredGrid"></div>
-    </div>
-    </div>
-
-    <!-- ===== HOW IT WORKS ===== -->
-    <section class="section" id="caranya">
-    <div class="section-wrap">
-        <div class="section-header section-center">
-        <h2>Cara <em>Kerjanya</em></h2>
-        </div>
-        <div class="steps-grid">
-        <div class="step-card">
-            <div class="step-num">01</div>
-            <h3>Daftar Gratis</h3>
-            <p>Buat akun dengan email kampusmu. Gratis selamanya, tanpa biaya berlangganan.</p>
-        </div>
-        <div class="step-card">
-            <div class="step-num">02</div>
-            <h3>Cari atau Listing</h3>
-            <p>Cari buku berdasarkan mata kuliah atau dosen, atau upload bukumu untuk dijual.</p>
-        </div>
-        <div class="step-card">
-            <div class="step-num">03</div>
-            <h3>Chat & Deal</h3>
-            <p>Hubungi penjual langsung, negosiasi harga, dan atur metode pengiriman.</p>
-        </div>
-        <div class="step-card">
-            <div class="step-num">04</div>
-            <h3>Beri Rating</h3>
-            <p>Selesaikan transaksi dan beri ulasan untuk membangun komunitas yang terpercaya.</p>
-        </div>
-        </div>
-    </div>
-    </section>
-
-    <!-- ===== REQUEST BANNER ===== -->
-    <div class="request-strip">
-    <div class="request-strip-inner">
-        <div>
-        <h2>Tidak menemukan buku yang dicari?</h2>
-        <p>Pasang permintaan wishlist dan kami bantu carikan dari komunitas.</p>
-        </div>
-        <a href="pages/wishlist.html" class="btn-primary lg"><i class="fa fa-bell"></i> Pasang Permintaan</a>
-    </div>
-    </div>
-
-    <!-- ===== TESTIMONIALS ===== -->
-    <section class="section" id="tentang">
-    <div class="section-wrap">
-        <div class="section-header section-center">
-        <h2>Kata <em>Mereka</em></h2>
-        </div>
-        <div class="testi-grid">
-        <div class="testi-card">
-            <div class="testi-stars">★★★★★</div>
-            <p>"Hemat 200rb buat buku Kalkulus Stewart! Kondisinya masih oke banget, cuma ada sedikit stabilo."</p>
-            <div class="testi-author">
-            <img src="https://api.dicebear.com/7.x/initials/svg?seed=Rina&backgroundColor=F1DABF&textColor=362417" alt="Rina"/>
-            <div><strong>Rina S.</strong><span>Teknik Sipil, UNSOED</span></div>
+<!-- HERO SECTION -->
+    <section class="hero-section" id="hero">
+        <div class="hero-container">
+            <div class="hero-text">
+                <div class="kicker">Modul Pembelajaran SMA</div>
+                <h2>Logika Komputer,<br><em>Bahasa Manusia.</em></h2>
+                <p>Manusia berbicara dengan makna, mesin beroperasi murni dengan aliran listrik. Pemrograman adalah seni menerjemahkan niat manusia ke dalam instruksi presisi yang bisa dipahami oleh prosesor.</p>
+                <a href="#pengantar" class="btn-hero">Mulai Membaca</a>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="card-stack" id="hero-stack">
+                    <div class="lang-card js-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="JavaScript Logo">
+                    </div>
+                    <div class="lang-card py-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python Logo">
+                    </div>
+                    <div class="lang-card cpp-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg" alt="C++ Logo">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="testi-card">
-            <div class="testi-stars">★★★★★</div>
-            <p>"Catatan rangkuman kakak tingkat worth it banget, udah ada highlight poin-poin penting yang sering keluar ujian."</p>
-            <div class="testi-author">
-            <img src="https://api.dicebear.com/7.x/initials/svg?seed=Budi&backgroundColor=92817A&textColor=ffffff" alt="Budi"/>
-            <div><strong>Budi P.</strong><span>Akuntansi, UNDIP</span></div>
-            </div>
-        </div>
-        <div class="testi-card">
-            <div class="testi-stars">★★★★☆</div>
-            <p>"Jual buku lama cepet banget, dalam 2 hari langsung ada yang minat. Proses chat-nya gampang dan cepat."</p>
-            <div class="testi-author">
-            <img src="https://api.dicebear.com/7.x/initials/svg?seed=Sari&backgroundColor=362417&textColor=ffffff" alt="Sari"/>
-            <div><strong>Sari W.</strong><span>Hukum, UGM</span></div>
-            </div>
-        </div>
-        </div>
-    </div>
     </section>
 
-    <!-- ===== FOOTER ===== -->
-    <div id="footerMount"></div>
+<!-- KONTEN UTAMA -->
+    <main id="app-content">
 
-    <script src="js/data.js"></script>
-    <script>
-    // ===== MOUNT NAVBAR & FOOTER =====
-    document.getElementById('navbarMount').innerHTML = buildNavbar('home', '');
-    document.getElementById('footerMount').innerHTML = buildFooter('');
+    <!-- Pengantar -->
+        <section id="pengantar" class="page-section">
+            <article class="content-article">
+                <div class="seksi-nomor">01</div>
+                <h3>Menjembatani Manusia dan Mesin: Algoritma</h3>
+                
+                <p class="lead-paragraph">Bahasa yang kita gunakan sehari-hari penuh dengan ambiguitas dan konteks. Ketika kita berkata "tolong buatkan kopi", manusia lain mengerti apa yang harus dilakukan berdasarkan intuisi dan pengalamannya.</p>
+                <p>Namun, komputer tidak memiliki intuisi. Ia adalah benda mati yang hanya memahami dua hal: ada arus listrik (1) dan tidak ada arus listrik (0). Agar "bahasa manusia" tadi bisa dimengerti oleh "logika komputer", kita harus membangun sebuah jembatan.</p>
+                <p>Jembatan itulah yang disebut dengan <strong>Algoritma</strong>. Algoritma adalah urutan langkah-langkah logis, pasti, dan tidak ambigu yang dirancang untuk memecahkan sebuah masalah. Komputer membutuhkan algoritma dengan presisi absolut:</p>
+                <ol>
+                    <li>Verifikasi apakah air di dalam teko lebih dari 250ml. Jika tidak, isi air.</li>
+                    <li>Nyalakan elemen pemanas teko.</li>
+                    <li>Pantau sensor suhu hingga mencapai tepat 95 derajat Celcius.</li>
+                    <li>Tuangkan 15 gram bubuk kopi ke dalam gelas.</li>
+                    <li>Tuangkan air panas ke dalam gelas perlahan.</li>
+                </ol>
 
-    // Fix sell btn for non-logged-in
-    document.getElementById('heroSellBtn')?.addEventListener('click', function(e){
-        if (!isLoggedIn()) {
-        e.preventDefault();
-        window.location.href = 'pages/login.html?redirect=pages/sell.html';
-        }
-    });
+                <blockquote class="pull-quote">"Bahasa pemrograman hanyalah kamus penerjemah. Kemampuan menyusun logika algoritmalah yang menjadi inti dari keahlian seorang programmer sejati."</blockquote>
+            </article>
+        </section>
 
-    // ===== RENDER FEATURED BOOKS =====
-    const grid = document.getElementById('featuredGrid');
-    AppState.books.slice(0,8).forEach(b => {
-        grid.innerHTML += buildBookCard(b, '');
-    });
+        <hr class="section-divider">
 
-    // ===== STATS COUNTER =====
-    const statsObs = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        entry.target.querySelectorAll('.stat-num').forEach(el => {
-            const target = +el.dataset.target;
-            let cur = 0, step = target/60;
-            const t = setInterval(() => {
-            cur += step;
-            if (cur >= target) { el.textContent = target.toLocaleString(); clearInterval(t); }
-            else el.textContent = Math.floor(cur).toLocaleString();
-            }, 22);
-        });
-        statsObs.unobserve(entry.target);
-        });
-    }, { threshold: 0.3 });
-    document.querySelector('.stats-strip') && statsObs.observe(document.querySelector('.stats-strip'));
+    <!-- Variabel -->
+        <section id="variabel" class="page-section">
+            <article class="content-article">
+                <div class="seksi-nomor">02</div>
+                <h3>Variabel dan Manipulasi Memori</h3>
+                
+                <p class="lead-paragraph">Sebelum komputer bisa memproses algoritma, ia harus "mengingat" data apa yang sedang ia kerjakan. Di sinilah peran memori (RAM) dan konsep Variabel menjadi sangat krusial.</p>
+                <p>Secara fisik, memori komputer terdiri dari miliaran sel kecil. Membaca dan menulis di alamat fisik memori tersebut sangatlah rumit. Oleh karena itu, kita menggunakan <strong>Variabel</strong>.</p>
+                <p>Variabel adalah "alias" atau label yang kita tempelkan pada sebuah laci di dalam memori. Alih-alih mengingat kode mesin yang rumit, kita cukup memberi nama laci tersebut dan mendeklarasikan <strong>Tipe Data</strong> apa yang akan masuk ke laci tersebut.</p>
+                
+                <div class="kode-blok-center">
+                    <div class="kode-label">Struktur Alokasi Memori di C++</div>
+                    <pre><code><span class="kode-keyword">#include</span> &lt;iostream&gt;
+<span class="kode-keyword">#include</span> &lt;string&gt;
+<span class="kode-keyword">using namespace</span> std;
 
-    // ===== SEARCH =====
-    function goSearch() {
-        const q = document.getElementById('heroSearch').value.trim();
-        window.location.href = `pages/catalog.html?q=${encodeURIComponent(q)}`;
+<span class="kode-keyword">int</span> <span class="kode-fungsi">main</span>() {
+    <span class="kode-comment">// Program mengalokasikan RAM sesuai dengan wujud data yang masuk</span>
+    <span class="kode-keyword">string</span> tipeTeks = <span class="kode-string">"Halo Dunia"</span>;
+    <span class="kode-keyword">int</span> tipeAngkaBulat = <span class="kode-number">100</span>;
+    <span class="kode-keyword">float</span> tipeAngkaPecahan = <span class="kode-number">3.14</span>;
+    <span class="kode-keyword">bool</span> tipeLogika = <span class="kode-keyword">true</span>; <span class="kode-comment">// Logika Biner (1 atau 0)</span>
+
+    cout << <span class="kode-string">"Data berhasil disimpan di dalam laci RAM!"</span>;
+    <span class="kode-keyword">return</span> <span class="kode-number">0</span>;
+}</code></pre>
+                </div>
+
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <span class="demo-judul">Detektor Tipe Data CPU</span>
+                    </div>
+                    <div class="demo-body">
+                        <div class="demo-input-group">
+                            <input type="text" id="type-input" placeholder="Ketik angka, teks, atau true/false..." class="demo-input">
+                        </div>
+                        <div class="demo-output" id="type-result">Sistem standby. Menunggu masukan data ke memori...</div>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <hr class="section-divider">
+
+    <!-- Operator -->
+        <section id="operator" class="page-section">
+            <article class="content-article">
+                <div class="seksi-nomor">03</div>
+                <h3>Operator dan Komputasi Mesin</h3>
+                
+                <p class="lead-paragraph">Data yang diam di dalam memori tidak akan menghasilkan program yang berguna. Kita harus memanipulasinya menggunakan ALU (Arithmetic Logic Unit)—bagian dari prosesor yang bertugas melakukan perhitungan matematika.</p>
+                <p>Dalam C++, kita menginstruksikan prosesor dengan menggunakan simbol-simbol khusus yang disebut <strong>Operator</strong>. Berikut adalah kategori utamanya:</p>
+                
+                <ul>
+                    <li><strong>Operator Aritmatika:</strong> Layaknya kalkulator (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>). Ada satu operator krusial yaitu <strong>Modulo (<code>%</code>)</strong> yang berfungsi mencari <em>sisa hasil bagi</em>.</li>
+                    <li><strong>Operator Perbandingan:</strong> Membandingkan dua nilai (<code>></code>, <code><</code>, <code>==</code>) dan selalu mengembalikan nilai Boolean logika (<code>true</code>/<code>false</code>).</li>
+                    <li><strong>Operator Logika:</strong> Digunakan untuk menggabungkan syarat. <strong>AND (<code>&&</code>)</strong> mewajibkan semua syarat benar, sedangkan <strong>OR (<code>||</code>)</strong> cukup salah satu saja yang benar.</li>
+                </ul>
+
+                <div class="kode-blok-center">
+                    <div class="kode-label">Aritmatika & Perbandingan di C++</div>
+                    <pre><code><span class="kode-keyword">#include</span> &lt;iostream&gt;
+<span class="kode-keyword">using namespace</span> std;
+
+<span class="kode-keyword">int</span> <span class="kode-fungsi">main</span>() {
+    <span class="kode-keyword">int</span> num1 = <span class="kode-number">10</span>;
+    <span class="kode-keyword">int</span> num2 = <span class="kode-number">3</span>;
+
+    <span class="kode-comment">// Melakukan komputasi Aritmatika (Sisa Bagi / Modulo)</span>
+    <span class="kode-keyword">int</span> hasilBagi = num1 % num2;
+
+    <span class="kode-comment">// Melakukan evaluasi Perbandingan</span>
+    <span class="kode-keyword">bool</span> cekLebihBesar = (num1 > num2);
+
+    cout << <span class="kode-string">"Sisa bagi (Modulo)  : "</span> << hasilBagi << endl;
+    cout << <span class="kode-string">"Apakah 10 > 3?      : "</span> << cekLebihBesar; <span class="kode-comment">// Muncul 1 (True)</span>
+    
+    <span class="kode-keyword">return</span> <span class="kode-number">0</span>;
+}</code></pre>
+                </div>
+
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <span class="demo-judul">Mesin Analisis ALU</span>
+                    </div>
+                    <div class="demo-body">
+                        <p style="color:var(--abu-muda); font-size: 0.95rem; margin-bottom: 15px; font-family: var(--font-body);">Masukan 2 angka. Sistem akan langsung menghitung operasi Aritmatika sekaligus menganalisis Operator Perbandingannya.</p>
+                        <div class="demo-input-group">
+                            <input type="number" id="calc-num1" value="10" class="demo-input demo-input-kecil">
+                            
+                            <select id="calc-op" class="demo-select" style="max-width:180px;">
+                                <option value="+">Tambah (+)</option>
+                                <option value="-">Kurang (-)</option>
+                                <option value="*">Kali (*)</option>
+                                <option value="/">Bagi (/)</option>
+                                <option value="%">Modulo (%)</option>
+                            </select>
+
+                            <input type="number" id="calc-num2" value="3" class="demo-input demo-input-kecil">
+                            <button class="btn-action" onclick="calculate()">Eksekusi CPU</button>
+                        </div>
+                        <div class="demo-output" id="calc-result">Menunggu instruksi komputasi matematika dan logika...</div>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <hr class="section-divider">
+
+    <!-- Percabangan -->
+        <section id="percabangan" class="page-section">
+            <article class="content-article">
+                <div class="seksi-nomor">04</div>
+                <h3>Percabangan (Control Flow)</h3>
+                
+                <p class="lead-paragraph">Aplikasi modern tidak hanya berjalan lurus. Ia bisa "berpikir" dan merespons situasi secara berbeda, layaknya sensor pintar yang bereaksi terhadap lingkungan. Kemampuan memilih rute ini disebut Percabangan.</p>
+                <p>Dalam C++, logika ini dibangun menggunakan struktur <strong>if</strong> (jika kondisi benar), <strong>else if</strong> (atau jika kondisi lain yang benar), dan <strong>else</strong> (bila semua kondisi salah). Penting diingat: begitu komputer menemukan satu blok yang bernilai <code>true</code>, ia akan mengeksekusi blok tersebut lalu <strong>langsung melompat keluar, mengabaikan semua syarat di bawahnya</strong>.</p>
+                
+                <div class="kode-blok-center">
+                    <div class="kode-label">Arsitektur Percabangan di C++</div>
+                    <pre><code><span class="kode-keyword">#include</span> &lt;iostream&gt;
+<span class="kode-keyword">using namespace</span> std;
+
+<span class="kode-keyword">int</span> <span class="kode-fungsi">main</span>() {
+    <span class="kode-keyword">int</span> suhu = <span class="kode-number">25</span>;
+
+    <span class="kode-comment">// Program akan mengecek satu per satu dari atas ke bawah</span>
+    <span class="kode-keyword">if</span> (suhu <= <span class="kode-number">0</span>) {
+        cout << <span class="kode-string">"Air berwujud Padat (Es)"</span>;
+    } 
+    <span class="kode-keyword">else if</span> (suhu >= <span class="kode-number">100</span>) {
+        cout << <span class="kode-string">"Air berwujud Gas (Uap)"</span>;
+    } 
+    <span class="kode-keyword">else</span> {
+        <span class="kode-comment">// Kondisi ini yang tereksekusi!</span>
+        cout << <span class="kode-string">"Air berwujud Cair"</span>;
     }
-    function goSearchQuery(q) {
-        window.location.href = `pages/catalog.html?q=${encodeURIComponent(q)}`;
-    }
-    function goCat(cat) {
-        window.location.href = `pages/catalog.html?cat=${encodeURIComponent(cat)}`;
-    }
+    
+    <span class="kode-keyword">return</span> <span class="kode-number">0</span>;
+}</code></pre>
+                </div>
 
-    </script>
-    </body>
-    </html>
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <span class="demo-judul">Sensor Keputusan Suhu (If-Else)</span>
+                    </div>
+                    <div class="demo-body">
+                        <div class="demo-input-group">
+                            <input type="number" id="suhu-input" placeholder="Masukkan angka Celcius" class="demo-input">
+                            <button class="btn-action" onclick="checkSuhu()">Cek Kondisi Fisik Air</button>
+                        </div>
+                        <div class="demo-output" id="suhu-result">Menunggu data sensor suhu lingkungan...</div>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <hr class="section-divider">
+
+    <!-- Perulangan -->
+        <section id="perulangan" class="page-section">
+            <article class="content-article">
+                <div class="seksi-nomor">05</div>
+                <h3>Perulangan Logika (Looping)</h3>
+                
+                <p class="lead-paragraph">Batas terdalam ketahanan manusia adalah kelelahan fisik. Sebaliknya, keunggulan mutlak mesin adalah kemampuannya menjalankan instruksi yang sama jutaan kali secara akurat tanpa merasa bosan.</p>
+                <p>Di dunia pemrograman, kita sangat menghindari penulisan kode repetitif. Kita menggunakan <strong>Looping</strong>. Jenis perulangan yang paling sering dipakai adalah <strong>For Loop</strong>. Ia memerlukan 3 parameter utama di dalam kurungnya:</p>
+                
+                <ol>
+                    <li><strong>Start:</strong> Dari angka berapa perhitungan dimulai.</li>
+                    <li><strong>Stop:</strong> Sampai angka berapa perulangan ini harus terus berputar.</li>
+                    <li><strong>Step:</strong> Modifikasi nilai setiap putaran selesai. (Simbol <code>i++</code> berarti nilai variabel <code>i</code> ditambah 1).</li>
+                </ol>
+
+                <div class="kode-blok-center">
+                    <div class="kode-label">Struktur For Loop di C++</div>
+                    <pre><code><span class="kode-keyword">#include</span> &lt;iostream&gt;
+<span class="kode-keyword">using namespace</span> std;
+
+<span class="kode-keyword">int</span> <span class="kode-fungsi">main</span>() {
+    <span class="kode-keyword">int</span> batas = <span class="kode-number">5</span>;
+
+    <span class="kode-comment">// Format: for (Start ; Stop ; Step)</span>
+    <span class="kode-keyword">for</span> (<span class="kode-keyword">int</span> i = <span class="kode-number">1</span>; i <= batas; i++) {
+        <span class="kode-comment">// Perintah ini akan dipaksa berjalan persis 5 kali</span>
+        cout << <span class="kode-string">"Render grafis siklus ke-"</span> << i << endl;
+    }
+    
+    <span class="kode-keyword">return</span> <span class="kode-number">0</span>;
+}</code></pre>
+                </div>
+
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <span class="demo-judul">Mesin Iterasi Render Otomatis</span>
+                    </div>
+                    <div class="demo-body">
+                        <div class="demo-input-group">
+                            <input type="number" id="loop-input" placeholder="Tentukan putaran (1-25)" class="demo-input" min="1" max="25">
+                            <button class="btn-action" onclick="runLoop()">Mulai Siklus For Loop</button>
+                        </div>
+                        <div class="box-container" id="loop-result" style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap; min-height: 40px;"></div>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <hr class="section-divider">
+
+    <!-- Fungsi & Prosedur -->
+        <section id="fungsi" class="page-section">
+            <article class="content-article">
+                <div class="seksi-nomor">06</div>
+                <h3>Fungsi & Prosedur: Membangun Mesin Modular</h3>
+                
+                <p class="lead-paragraph">Ketika kodemu mencapai ribuan baris, menuliskan instruksi yang lurus terus menerus akan menjadikannya berantakan. Solusinya adalah memecahnya menjadi modul-modul logika kecil yang disebut <strong>Fungsi</strong> atau <strong>Prosedur</strong>.</p>
+                <p>Mereka bekerja seperti "Mesin Pabrik". Kamu merakitnya satu kali, dan memanggil/menekan tombolnya berkali-kali saat dibutuhkan. Mesin ini bisa menerima <em>Parameter</em> (bahan baku input). Namun, ada perbedaan cara kerja saat mereka mengeluarkan hasil:</p>
+                
+                <ul>
+                    <li><strong>Prosedur (Void):</strong> Mesin ini melakukan aksi langsung (seperti mencetak ke layar), tetapi <strong>tidak</strong> mengembalikan nilai yang bisa disimpan. Ia menggunakan kata kunci <code>void</code>.</li>
+                    <li><strong>Fungsi (Return):</strong> Mesin ini mengolah data dan <strong>wajib</strong> mengembalikan sebuah nilai akhir (return) untuk disimpan ke dalam sebuah variabel.</li>
+                </ul>
+
+                <div class="kode-blok-center">
+                    <div class="kode-label">Perbedaan Fungsi dan Prosedur di C++</div>
+                    <pre><code><span class="kode-keyword">#include</span> &lt;iostream&gt;
+<span class="kode-keyword">#include</span> &lt;string&gt;
+<span class="kode-keyword">using namespace</span> std;
+
+<span class="kode-comment">// 1. PROSEDUR (Menggunakan 'void', tidak mengembalikan nilai/return)</span>
+<span class="kode-keyword">void</span> <span class="kode-fungsi">cetakLabel</span>(<span class="kode-keyword">string</span> namaBarang) {
+    cout << <span class="kode-string">"--- LABEL BARANG: "</span> << namaBarang << <span class="kode-string">" ---"</span> << endl;
+}
+
+<span class="kode-comment">// 2. FUNGSI (Memiliki tipe data 'string', wajib mengembalikan nilai/return)</span>
+<span class="kode-keyword">string</span> <span class="kode-fungsi">buatProduk</span>(<span class="kode-keyword">string</span> bahan) {
+    <span class="kode-keyword">return</span> <span class="kode-string">"Produk dari "</span> + bahan; 
+}
+
+<span class="kode-keyword">int</span> <span class="kode-fungsi">main</span>() {
+    <span class="kode-comment">// Memanggil Prosedur: Langsung mengeksekusi aksi cetak ke layar</span>
+    <span class="kode-fungsi">cetakLabel</span>(<span class="kode-string">"Biji Kopi Hitam"</span>);
+    
+    <span class="kode-comment">// Memanggil Fungsi: Nilai akhirnya wajib ditangkap/disimpan ke variabel</span>
+    <span class="kode-keyword">string</span> hasilPabrik = <span class="kode-fungsi">buatProduk</span>(<span class="kode-string">"Biji Kopi Hitam"</span>);
+    
+    <span class="kode-keyword">return</span> <span class="kode-number">0</span>;
+}</code></pre>
+                </div>
+
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <span class="demo-judul">Pemanggilan Prosedur (Void)</span>
+                    </div>
+                    <div class="demo-body">
+                        <p style="color:var(--abu-muda); font-size: 0.95rem; margin-bottom: 15px; font-family: var(--font-body);">Prosedur hanya melakukan perintah aksi langsung ke sistem tanpa mengembalikan nilai (return) ke memori variabel.</p>
+                        <div class="demo-input-group">
+                            <input type="text" id="proc-input" placeholder="Masukkan nama barang..." class="demo-input">
+                            <button class="btn-action" onclick="runProcedure()">Jalankan Prosedur (Cetak)</button>
+                        </div>
+                        <div class="demo-output" id="proc-result">Menunggu instruksi pemanggilan prosedur...</div>
+                    </div>
+                </div>
+
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <span class="demo-judul">Pemanggilan Fungsi (Return Value)</span>
+                    </div>
+                    <div class="demo-body">
+                        <p style="color:var(--abu-muda); font-size: 0.95rem; margin-bottom: 15px; font-family: var(--font-body);">Fungsi mengolah bahan (parameter) dan menghasilkan barang baru (return) yang kemudian disimpan ke riwayat eksekusi.</p>
+                        <div class="demo-input-group">
+                            <select id="buah-input" class="demo-select" style="max-width: 230px;">
+                                <option value="Biji Kopi Hitam">Biji Kopi Hitam</option>
+                                <option value="Buah Jeruk Segar">Buah Jeruk Segar</option>
+                                <option value="Daun Teh Hijau">Daun Teh Hijau</option>
+                            </select>
+                            <button class="btn-action" onclick="makeJuice()">Kirim Parameter ke Fungsi</button>
+                        </div>
+                        <ul id="juice-list" style="margin-top:20px; padding-left:0; list-style:none;"></ul>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+    <!-- CTA -->
+        <section class="cta-section">
+            <div class="cta-container">
+                <h2>Ingin belajar lebih lanjut?</h2>
+                <p>Lima komponen utama di atas adalah fondasi abadi dalam arsitektur perangkat lunak. Kini saatnya mempraktikkannya langsung. Tonton *playlist* video komprehensif kami untuk menuliskan kode C++ pertamamu dan merancang aplikasi nyata.</p>
+                <a href="https://youtube.com/playlist?list=PLaq88ecwZszCvvEvmlJNxqlc5GatRWE32&si=8n7WAsmjac4vb-GD" target="_blank" class="btn-cta">Tonton Playlist Belajar</a>
+            </div>
+        </section>
+
+    </main>
+
+<!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3 class="logo">Sinau<em>Pemrograman.</em></h3>
+                <p>Membongkar kerumitan bahasa mesin dan komputasi menjadi logika fundamental yang mudah dicerna. Titik nol untuk karir rekayasa perangkat lunakmu.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navigasi Materi</h4>
+                <a href="#pengantar">Algoritma & Logika</a>
+                <a href="#variabel">Memori Variabel</a>
+                <a href="#operator">Komputasi Operator</a>
+                <a href="#percabangan">Percabangan Proses</a>
+            </div>
+            <div class="footer-col">
+                <h4>Lanjutan Eksekusi</h4>
+                <a href="#perulangan">Efisiensi Perulangan</a>
+                <a href="#fungsi">Fungsi Modular</a>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Sinau Pemrograman Dasar. Hak Cipta Dilindungi.
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

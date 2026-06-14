@@ -1,0 +1,338 @@
+/* ── 1. PENGATURAN AWAL & VARIABEL WARNA ── */
+:root {
+    --hitam:      #0a0a0a;   
+    --abu-gelap:  #141414;   
+    --abu-medium: #333333;   
+    --abu-muda:   #999999;   
+    --abu-border: #2a2a2a;   
+    --putih:      #f5f3ee;   
+    --putih-murni:#ffffff;   
+    --aksen:      #c8b97a;   
+    --aksen-hover:#b0a164;   
+    
+    --font-display: 'Playfair Display', Georgia, serif;  
+    --font-body:    'Lora', Georgia, serif;                
+    --font-mono:    'Source Code Pro', Consolas, monospace; 
+
+    --lebar-konten: 1100px;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--hitam);
+    color: var(--putih);
+    line-height: 1.8; 
+    -webkit-font-smoothing: antialiased; 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+::selection { background: var(--aksen); color: var(--hitam); }
+
+
+/* ── 2. NAVBAR & MENU HAMBURGER ── */
+.navbar {
+    background: var(--hitam);
+    border-bottom: 1px solid var(--abu-border);
+    position: sticky; top: 0; z-index: 1000; 
+}
+
+.nav-container {
+    max-width: var(--lebar-konten); margin: 0 auto;
+    padding: 18px 30px; display: flex;
+    justify-content: space-between; align-items: center;
+    position: relative;
+}
+
+.logo {
+    font-family: var(--font-display); font-size: 1.6rem;
+    font-weight: 900; color: var(--putih-murni); letter-spacing: -0.5px;
+}
+.logo em { font-style: italic; color: var(--aksen); }
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+    z-index: 1001;
+}
+
+.hamburger span {
+    width: 28px; height: 3px;
+    background-color: var(--putih-murni);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.nav-links { display: flex; list-style: none; gap: 24px; }
+.nav-links a {
+    font-family: var(--font-mono); text-decoration: none;
+    color: var(--abu-muda); font-size: 0.8rem; letter-spacing: 0.05em;
+    text-transform: uppercase; transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--aksen); }
+
+@media (max-width: 850px) {
+    .hamburger { display: flex; } 
+    
+    .nav-links {
+        position: absolute; top: 100%; left: 0; width: 100%;
+        background: var(--hitam); flex-direction: column; gap: 0;
+        border-bottom: 1px solid var(--abu-border);
+        max-height: 0; overflow: hidden; 
+        transition: max-height 0.4s ease-in-out; 
+    }
+    
+    .nav-links.active { max-height: 400px; }
+    .nav-links li { text-align: center; }
+    .nav-links a {
+        display: block; padding: 18px 20px;
+        border-top: 1px solid var(--abu-border); font-size: 0.9rem;
+    }
+    .nav-links a:hover { background: var(--abu-gelap); }
+
+    .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+}
+
+
+/* ── 3. HERO SECTION ── */
+.hero-section {
+    background-color: var(--putih); color: var(--hitam); 
+    padding: 100px 30px; position: relative; overflow: hidden;
+    border-bottom: 4px solid var(--aksen);
+}
+
+.hero-container {
+    max-width: var(--lebar-konten); margin: 0 auto; display: flex;
+    align-items: center; justify-content: space-between; gap: 40px;
+}
+
+.hero-text { flex: 1; text-align: left; }
+.hero-text .kicker {
+    font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.2em; 
+    text-transform: uppercase; color: #b0a164; margin-bottom: 15px; font-weight: bold;
+}
+.hero-text h2 {
+    font-family: var(--font-display); font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 1.1; margin-bottom: 25px; color: var(--hitam);
+}
+.hero-text h2 em { color: #b0a164; font-style: italic; }
+.hero-text p { font-size: 1.2rem; color: #444; max-width: 550px; margin-bottom: 40px; }
+
+.btn-hero {
+    display: inline-block; background: var(--hitam); color: var(--putih-murni);
+    padding: 15px 35px; border-radius: 40px; text-decoration: none;
+    font-family: var(--font-mono); font-weight: bold; font-size: 0.95rem;
+    transition: transform 0.3s, background 0.3s;
+}
+.btn-hero:hover { background: #333; transform: translateY(-3px); }
+
+.hero-visual { position: relative; width: 300px; height: 350px; flex-shrink: 0; }
+.card-stack { width: 100%; height: 100%; position: relative; }
+
+.lang-card {
+    position: absolute; width: 150px; height: 210px; border-radius: 12px;
+    background: var(--putih-murni); border: 1px solid #ddd;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+}
+.lang-card img { width: 85px; height: 85px; object-fit: contain; pointer-events: none; }
+
+.js-card { top: 20px; left: 10px; transform: rotate(-8deg); z-index: 3; animation: float1 4s infinite alternate ease-in-out; }
+.py-card { top: 50px; left: 50px; transform: rotate(5deg); z-index: 2; animation: float2 5s infinite alternate ease-in-out; }
+.cpp-card { top: 80px; left: 90px; transform: rotate(15deg); z-index: 1; animation: float3 4.5s infinite alternate ease-in-out; }
+
+@keyframes float1 { to { top: 10px; } }
+@keyframes float2 { to { top: 60px; } }
+@keyframes float3 { to { top: 70px; } }
+
+
+/* ── 4. KONTEN ARTIKEL & TIPOGRAFI ── */
+#app-content { width: 100%; padding-top: 20px; }
+.page-section { padding: 60px 30px; }
+
+.section-divider { border: 0; height: 1px; background: var(--abu-border); max-width: var(--lebar-konten); margin: 0 auto;}
+
+.content-article { text-align: left; max-width: var(--lebar-konten); margin: 0 auto; }
+
+.seksi-nomor {
+    font-family: var(--font-mono); font-size: 0.85rem; color: var(--aksen);
+    letter-spacing: 0.2em; margin-bottom: 10px;
+}
+
+.content-article h3 {
+    font-family: var(--font-display); font-size: 2.8rem; color: var(--putih-murni);
+    margin-bottom: 25px; line-height: 1.2;
+}
+
+.content-article h4 {
+    font-family: var(--font-display); font-size: 1.6rem; color: var(--putih-murni);
+    margin: 40px 0 20px; border-bottom: 1px solid var(--abu-border); padding-bottom: 10px;
+}
+
+.content-article p, .content-article ul, .content-article ol { 
+    margin-bottom: 22px; font-size: 1.1rem; max-width: 900px;
+}
+.content-article ul, .content-article ol { padding-left: 25px; }
+.content-article li { margin-bottom: 12px; }
+
+.lead-paragraph { font-size: 1.35rem; color: var(--putih-murni); font-style: italic; line-height: 1.7; }
+
+.pull-quote {
+    font-family: var(--font-display); font-size: 1.5rem; font-style: italic;
+    color: var(--aksen); border-left: 3px solid var(--aksen);
+    padding: 15px 0 15px 30px; margin: 40px 0; line-height: 1.5;
+    background: rgba(200, 185, 122, 0.05); max-width: 900px;
+}
+
+
+/* ── 5. DESAIN BLOK KODE C++ ── */
+.kode-blok-center {
+    background: #0f0f0f; border: 1px solid var(--abu-border);
+    border-radius: 6px; overflow: hidden; max-width: 100%; margin: 40px 0;
+}
+
+.kode-label {
+    font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase;
+    color: var(--abu-muda); background: #1a1a1a; padding: 12px 15px;
+    border-bottom: 1px solid var(--abu-border); letter-spacing: 0.1em; font-weight: bold;
+}
+
+.kode-blok-center pre {
+    padding: 20px; overflow-x: auto; font-family: var(--font-mono);
+    font-size: 0.95rem; line-height: 1.6; color: #d4d4d4;
+}
+
+.kode-keyword { color: #c586c0; }       
+.kode-string { color: #ce9178; }        
+.kode-number { color: #b5cea8; }        
+.kode-comment { color: #6a9955; font-style: italic; } 
+.kode-fungsi { color: #dcdcaa; }        
+
+code {
+    font-family: var(--font-mono); font-size: 0.85em; background: rgba(255,255,255,0.08);
+    padding: 2px 6px; border-radius: 4px; color: var(--aksen);
+}
+
+
+/* ── 6. KOTAK DEMO INTERAKTIF ── */
+.demo-card {
+    background: var(--abu-gelap); border: 1px solid var(--abu-border);
+    border-radius: 10px; margin: 50px 0; overflow: hidden; max-width: 100%;
+}
+
+.demo-header {
+    padding: 18px 25px; border-bottom: 1px solid var(--abu-border);
+    background: rgba(255,255,255,0.02);
+}
+
+.demo-judul { font-weight: bold; color: var(--aksen); font-size: 1.05rem; font-family: var(--font-mono); letter-spacing: 0.5px;}
+
+.demo-body { padding: 30px; }
+.demo-input-group { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; margin-bottom: 20px;}
+
+.demo-input, .demo-select {
+    padding: 12px 18px; background: rgba(255,255,255,0.05);
+    border: 1px solid var(--abu-border); border-radius: 6px;
+    color: var(--putih-murni); font-family: var(--font-mono);
+    font-size: 0.95rem; outline: none; flex: 1; min-width: 150px;
+    transition: border 0.3s;
+}
+
+.demo-select { cursor: pointer; }
+.demo-select option {
+    background-color: var(--hitam); 
+    color: var(--putih-murni);      
+    font-family: var(--font-mono);  
+}
+
+.demo-input:focus, .demo-select:focus { border-color: var(--aksen); }
+.demo-input-kecil { flex: 0 0 auto; width: 130px; min-width: unset; }
+
+.btn-action {
+    background: var(--aksen); color: var(--hitam); border: none;
+    padding: 12px 25px; border-radius: 6px; font-family: var(--font-mono);
+    font-weight: bold; cursor: pointer; transition: background 0.2s, transform 0.2s;
+    font-size: 0.9rem;
+}
+.btn-action:hover { background: var(--aksen-hover); transform: translateY(-2px);}
+
+.demo-output {
+    background: var(--hitam); border: 1px dashed var(--abu-border);
+    padding: 20px; border-radius: 6px; font-family: var(--font-mono);
+    font-size: 0.9rem; color: var(--aksen); min-height: 60px; line-height: 1.7;
+}
+
+.loop-box {
+    width: 45px; height: 45px; background-color: var(--aksen); color: var(--hitam);
+    display: flex; justify-content: center; align-items: center; border-radius: 4px; 
+    font-family: var(--font-mono); font-weight: bold; animation: scaleIn 0.3s ease-out;
+}
+@keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
+
+.juice-item {
+    background: rgba(255,255,255,0.05); padding: 10px 15px; margin-bottom: 8px; 
+    border-left: 3px solid var(--aksen); font-family: var(--font-mono); font-size: 0.9rem; color: var(--putih);
+}
+
+
+/* ── 7. CALL TO ACTION (CTA) BAWAH ── */
+.cta-section {
+    text-align: center; padding: 100px 30px; 
+    background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+    border-top: 1px solid var(--abu-border); margin-top: 40px;
+}
+.cta-container { max-width: 700px; margin: 0 auto; }
+.cta-section h2 { font-family: var(--font-display); font-size: 3rem; color: var(--putih-murni); margin-bottom: 20px; line-height: 1.2; }
+.cta-section p { font-size: 1.15rem; color: var(--abu-muda); margin-bottom: 40px; }
+
+.btn-cta {
+    display: inline-block; background: var(--aksen); color: var(--hitam);
+    padding: 18px 45px; border-radius: 50px; text-decoration: none;
+    font-family: var(--font-mono); font-weight: bold; font-size: 1.1rem;
+    box-shadow: 0 10px 30px rgba(200, 185, 122, 0.2); transition: all 0.3s ease;
+}
+.btn-cta:hover {
+    background: var(--putih-murni); transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.2);
+}
+
+
+/* ── 8. FOOTER WEBSITE ── */
+.site-footer {
+    background: var(--abu-gelap); border-top: 1px solid var(--abu-border);
+    padding: 70px 30px 30px;
+}
+
+.footer-container {
+    max-width: var(--lebar-konten); margin: 0 auto;
+    display: grid; grid-template-columns: 2fr 1.5fr 1.5fr; gap: 50px;
+    margin-bottom: 50px; text-align: left;
+}
+.footer-col h4 { font-family: var(--font-mono); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--aksen); margin-bottom: 25px;}
+.footer-col p { font-size: 1rem; color: var(--abu-muda); max-width: 350px; margin-top: 15px;}
+.footer-col a {
+    display: block; color: var(--abu-muda); text-decoration: none;
+    font-size: 1rem; margin-bottom: 12px; transition: color 0.3s;
+}
+.footer-col a:hover { color: var(--putih-murni); }
+
+.copyright {
+    text-align: center; border-top: 1px solid var(--abu-border);
+    padding-top: 25px; font-family: var(--font-mono); font-size: 0.8rem; color: #666;
+}
+
+@media (max-width: 850px) {
+    .hero-container { flex-direction: column; text-align: left; align-items: flex-start;}
+    .hero-visual { align-self: center; margin-top: 30px; }
+    .footer-container { grid-template-columns: 1fr; gap: 40px;} 
+    .cta-section h2 { font-size: 2.2rem; }
+}
